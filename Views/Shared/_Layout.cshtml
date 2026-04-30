@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Strata</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Strata.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                    <img src="~/img/logo_nooutline.png" alt="Strata Logo" width="30" height="24" class="d-inline-block align-text-bottom" /><span class="fw-bold fs-6 ps-2">STRATA</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbarTogglerDemo03">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Inventory</a>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item">All Items</button></li>
+                                    <li><button class="dropdown-item">Categories</button></li>
+                                    <li><button class="dropdown-item">Consumables</button></li>
+                                    <li><button class="dropdown-item">Spare Parts</button></li>
+                                    <li><button class="dropdown-item">Software Licenses</button></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Assets</a>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item">Devices</button></li>
+                                    <li><button class="dropdown-item">Asset Tags</button></li>
+                                    <li><button class="dropdown-item">Assigned Equipment</button></li>
+                                    <li><button class="dropdown-item">Department Allocation</button></li>
+                                    <li><button class="dropdown-item">Room Locations</button></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stock Movements</a>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item">Stock In</button></li>
+                                    <li><button class="dropdown-item">Stock Out</button></li>
+                                    <li><button class="dropdown-item">Transfers</button></li>
+                                    <li><button class="dropdown-item">Adjustments</button></li>
+                                    <li><button class="dropdown-item">Disposal</button></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Procurement</a>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item">Requests</button></li>
+                                    <li><button class="dropdown-item">Purchase Orders</button></li>
+                                    <li><button class="dropdown-item">Deliveries</button></li>
+                                    <li><button class="dropdown-item">Receiving Logs</button></li>
+                                    <li><button class="dropdown-item">Vendors</button></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
