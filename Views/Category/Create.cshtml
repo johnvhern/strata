@@ -1,0 +1,21 @@
+﻿@model Strata.ViewModel.CategoryViewModel
+@{
+    ViewData["Title"] = "New Category";
+}
+
+<h3 class="mb-3">New Category</h3>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-controller="Category" asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Printers"/>
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

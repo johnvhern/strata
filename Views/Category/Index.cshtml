@@ -1,5 +1,41 @@
-﻿@{
+﻿@model List<Strata.Models.Category>
+@{
     ViewData["Title"] = "Categories";
 }
 
-<h3>Categories</h3>
+<div class="d-flex justify-content-between mb-3">
+    <h3>Categories</h3>
+    <a asp-controller="Category" asp-action="Create" class="btn btn-primary d-flex align-items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+        <span>Create</span>
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td class="align-content-center">@category.Name</td>
+                        <td class="align-content-center">@category.CreatedAt.ToString("MM/dd/yyyy")</td>
+                        <td class="align-content-center">@category.CreatedBy</td>
+                        <td>
+                            <a class="btn btn-secondary btn-sm">Edit</a>
+                            <a class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
