@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Strata.Data;
+using Strata.Helpers;
 using Strata.Models;
 using Strata.ViewModel;
 
@@ -17,10 +18,27 @@ namespace Strata.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, int pageNumber = 1)
         {
-            var category = await _context.Categories.ToListAsync();
-            return View(category);
+            int pageSize = 25;
+
+            var query = _context.Categories.AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                query = query.Where(c => c.Name.Contains(searchString));
+            }
+
+            query = query.OrderBy(c => c.Name).ThenBy(c => c.Id);
+
+            var pagedCategory = await PaginatedList<Category>.CreateAsync(
+                query,
+                pageNumber,
+                pageSize
+            );
+
+            ViewData["CurrentFilter"] = searchString;
+            return View(pagedCategory);
         }
 
         public IActionResult Create()
@@ -39,6 +57,47 @@ namespace Strata.Controllers
             var category = new Category { Name = model.Name };
 
             _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            var model = new CategoryViewModel { Id = category.Id, Name = category.Name };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CategoryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var category = await _context.Categories.FindAsync(model.Id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            category.Name = model.Name;
+            _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
