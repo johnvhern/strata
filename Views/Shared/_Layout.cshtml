@@ -11,10 +11,14 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg bg-primary border-bottom box-shadow mb-4">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">
-                    <img src="~/img/logo_nooutline.png" alt="Strata Logo" width="30" height="24" class="d-inline-block align-text-bottom" /><span class="fw-bold fs-6 ps-2">STRATA</span>
+                <a class="text-white navbar-brand d-flex align-items-center" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="30" height="24" class="d-inline-block align-text-bottom" />
+                    <div class="d-flex flex-column ms-2">
+                        <span class="fw-bold fs-6 lh-1">STRATA</span>
+                        <span class="lh-1" style="font-size: 12px;">Inventory Management System</span>
+                    </div>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -23,53 +27,88 @@
                 <div class="navbar-collapse collapse" id="navbarTogglerDemo03">
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Inventory</a>
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Inventory</a>
                                 <ul class="dropdown-menu">
-                                    <li><button class="dropdown-item">All Items</button></li>
-                                    <li><button class="dropdown-item">Categories</button></li>
-                                    <li><button class="dropdown-item">Consumables</button></li>
-                                    <li><button class="dropdown-item">Spare Parts</button></li>
-                                    <li><button class="dropdown-item">Software Licenses</button></li>
+                                    <li><a class="dropdown-item">All Items</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Categories</a></li>
+                                    <li><a class="dropdown-item">Consumables</a></li>
+                                    <li><a class="dropdown-item">Spare Parts</a></li>
+                                    <li><a class="dropdown-item">Software Licenses</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Assets</a>
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Assets</a>
                                 <ul class="dropdown-menu">
-                                    <li><button class="dropdown-item">Devices</button></li>
-                                    <li><button class="dropdown-item">Asset Tags</button></li>
-                                    <li><button class="dropdown-item">Assigned Equipment</button></li>
-                                    <li><button class="dropdown-item">Department Allocation</button></li>
-                                    <li><button class="dropdown-item">Room Locations</button></li>
+                                    <li><a class="dropdown-item">Devices</a></li>
+                                    <li><a class="dropdown-item">Asset Tags</a></li>
+                                    <li><a class="dropdown-item">Assigned Equipment</a></li>
+                                    <li><a class="dropdown-item">Department Allocation</a></li>
+                                    <li><a class="dropdown-item">Room Locations</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stock Movements</a>
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stock Movements</a>
                                 <ul class="dropdown-menu">
-                                    <li><button class="dropdown-item">Stock In</button></li>
-                                    <li><button class="dropdown-item">Stock Out</button></li>
-                                    <li><button class="dropdown-item">Transfers</button></li>
-                                    <li><button class="dropdown-item">Adjustments</button></li>
-                                    <li><button class="dropdown-item">Disposal</button></li>
+                                    <li><a class="dropdown-item">Stock In</a></li>
+                                    <li><a class="dropdown-item">Stock Out</a></li>
+                                    <li><a class="dropdown-item">Transfers</a></li>
+                                    <li><a class="dropdown-item">Adjustments</a></li>
+                                    <li><a class="dropdown-item">Disposal</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Procurement</a>
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Procurement</a>
                                 <ul class="dropdown-menu">
-                                    <li><button class="dropdown-item">Requests</button></li>
-                                    <li><button class="dropdown-item">Purchase Orders</button></li>
-                                    <li><button class="dropdown-item">Deliveries</button></li>
-                                    <li><button class="dropdown-item">Receiving Logs</button></li>
-                                    <li><button class="dropdown-item">Vendors</button></li>
+                                    <li><a class="dropdown-item">Requests</a></li>
+                                    <li><a class="dropdown-item">Purchase Orders</a></li>
+                                    <li><a class="dropdown-item">Deliveries</a></li>
+                                    <li><a class="dropdown-item">Receiving Logs</a></li>
+                                    <li><a class="dropdown-item">Vendors</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Maintenance</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">Preventive Maintenance</a></li>
+                                    <li><a class="dropdown-item">Repairs</a></li>
+                                    <li><a class="dropdown-item">Warranty Tracking</a></li>
+                                    <li><a class="dropdown-item">Service History</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">Low Stock</a></li>
+                                    <li><a class="dropdown-item">Expiring Items</a></li>
+                                    <li><a class="dropdown-item">Utilization Reports</a></li>
+                                    <li><a class="dropdown-item">Audit Trail</a></li>
+                                    <li><a class="dropdown-item">Inventory Summary</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administration</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">Users</a></li>
+                                    <li><a class="dropdown-item">Roles</a></li>
+                                    <li><a class="dropdown-item">Permissions</a></li>
+                                    <li><a class="dropdown-item">Activity Logs</a></li>
+                                    <li><a class="dropdown-item">System Settings</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -79,7 +118,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-xxl">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

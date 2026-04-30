@@ -7,14 +7,14 @@
 {
     <li class="nav-item">
         <div class="dropdown">
-            <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello @User.Identity?.Name!</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form asp-area="Identity"
                               asp-page="/Account/Logout"
-                              asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                              asp-route-returnUrl="@Url.Page("/Account/Login", new { area = "Identity" })"
                               method="post"
                               class="m-0">
                             <button type="submit" class="dropdown-item">
