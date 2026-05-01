@@ -5,6 +5,7 @@ using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
 using Strata.ViewModel;
+using Strata.ViewModel.Category;
 
 namespace Strata.Controllers
 {
@@ -57,7 +58,7 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryViewModel model)
+        public async Task<IActionResult> Create(CategoryCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -87,7 +88,7 @@ namespace Strata.Controllers
                 return NotFound();
             }
 
-            var model = new CategoryViewModel
+            var model = new CategoryEditViewModel
             {
                 Id = category.Id,
                 Name = category.Name,
@@ -98,7 +99,7 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CategoryViewModel model)
+        public async Task<IActionResult> Edit(CategoryEditViewModel model)
         {
             if (!ModelState.IsValid)
             {

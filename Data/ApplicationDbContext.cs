@@ -21,6 +21,7 @@ namespace Strata.Data
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Consumable> Consumables { get; set; }
 
         public override int SaveChanges()
         {

@@ -15,5 +15,6 @@ namespace Strata.Models
         public string? CreatedBy { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
+        public ICollection<Consumable>? Consumables { get; set; } = new List<Consumable>();
     }
 }

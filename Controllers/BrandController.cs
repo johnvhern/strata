@@ -4,6 +4,7 @@ using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
 using Strata.ViewModel;
+using Strata.ViewModel.Brand;
 
 namespace Strata.Controllers
 {
@@ -51,7 +52,7 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BrandViewModel model)
+        public async Task<IActionResult> Create(BrandCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -81,7 +82,7 @@ namespace Strata.Controllers
                 return NotFound();
             }
 
-            var model = new BrandViewModel
+            var model = new BrandEditViewModel
             {
                 Id = brand.Id,
                 Name = brand.Name,
@@ -92,7 +93,7 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(BrandViewModel model)
+        public async Task<IActionResult> Edit(BrandEditViewModel model)
         {
             if (!ModelState.IsValid)
             {

@@ -15,5 +15,6 @@ namespace Strata.Models
         public DateTimeOffset UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
         public bool IsActive { get; set; } = true;
+        public ICollection<Consumable>? Consumables { get; set; } = new List<Consumable>();
     }
 }

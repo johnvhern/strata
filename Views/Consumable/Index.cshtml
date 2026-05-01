@@ -1,7 +1,107 @@
-﻿@{
+﻿@using Strata.Helpers
+@model PaginatedList<Consumable>
+@{
     ViewData["Title"] = "Consumables";
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<div class="mb-3">
+<div class="d-flex justify-content-between mb-3">
     <h3>Consumables</h3>
+    <a asp-controller="Consumable" asp-action="Create" class="btn btn-primary d-flex align-items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-plus-icon lucide-plus">
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+        </svg>
+        <span>Create</span>
+    </a>
 </div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-12 col-md-5">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control"
+               placeholder="Search consumable" />
+    </div>
+
+    <div class="col-12 col-md-3">
+        <select name="isActive" class="form-select">
+            <option value="">All</option>
+            <option value="true" selected="@(ViewData["CurrentStatus"]?.ToString() == "True")">Active</option>
+            <option value="false" selected="@(ViewData["CurrentStatus"]?.ToString() == "False")">Inactive</option>
+        </select>
+    </div>
+
+    <div class="col-12 col-md-1 d-grid">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<div class="card mb-3">
+    <div class="card-body table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var consumable in Model)
+                {
+                    <tr>
+                        <td class="align-content-center">@consumable.Name</td>
+                        <td class="align-content-center">@consumable.Description</td>
+                        <td class="align-content-center">@consumable.Brand?.Name</td>
+                        <td class="align-content-center">@consumable.Category?.Name</td>
+                        <td class="align-content-center">@consumable.CreatedAt.ToString("MM/dd/yyyy")</td>
+                        <td class="align-content-center">@consumable.CreatedBy</td>
+                        <td class="align-content-center">
+                            <span class="badge rounded-pill @(consumable.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary bg-opacity-10 text-secondary")">
+                               @(consumable.IsActive ? "Active" : "Inactive")
+                           </span>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@consumable.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Consumable pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @prevDisabled">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-statusFilter="@ViewData["CurrentStatus"]">Previous</a>
+            </li>
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@i"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-statusFilter="@ViewData["CurrentStatus"]">@i</a>
+                </li>
+            }
+
+            <li class="page-item @nextDisabled">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-statusFilter="@ViewData["CurrentStatus"]">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
