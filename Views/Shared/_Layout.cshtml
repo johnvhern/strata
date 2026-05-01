@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,114 +10,134 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Strata.styles.css" asp-append-version="true" />
 </head>
+@{
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString() ?? string.Empty;
+}
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-xl bg-primary border-bottom box-shadow mb-4">
-            <div class="container-fluid">
-                <a class="text-white navbar-brand d-flex align-items-center" asp-area="" asp-controller="Dashboard" asp-action="Index">
-                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="30" height="24" class="d-inline-block align-text-bottom" />
+    <div class="app-shell">
+        <aside class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="appSidebar"
+               aria-labelledby="appSidebarLabel">
+            <div class="offcanvas-header d-lg-none sidebar-offcanvas-header">
+                <div class="sidebar-brand d-flex align-items-center" id="appSidebarLabel">
+                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="32" height="32" class="sidebar-logo" />
                     <div class="d-flex flex-column ms-2">
-                        <span class="fs-6 fw-semibold lh-1">STRATA</span>
-                        <span class="lh-1" style="font-size: 12px;">Inventory Management System</span>
+                        <span class="sidebar-brand-title">STRATA</span>
+                        <span class="sidebar-brand-subtitle">Inventory Management System</span>
                     </div>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="text-white-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></svg>
-                    </span>
-                </button>
-                <div class="navbar-collapse collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav flex-grow-1 justify-content-end">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Inventory</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">All Items</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Categories</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Brand" asp-action="Index">Brands</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Consumable" asp-action="Index">Consumables</a></li>
-                                    <li><a class="dropdown-item">Spare Parts</a></li>
-                                    <li><a class="dropdown-item">Software Licenses</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Assets</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Devices</a></li>
-                                    <li><a class="dropdown-item">Asset Tags</a></li>
-                                    <li><a class="dropdown-item">Assigned Equipment</a></li>
-                                    <li><a class="dropdown-item">Department Allocation</a></li>
-                                    <li><a class="dropdown-item">Room Locations</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stock Movements</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Stock In</a></li>
-                                    <li><a class="dropdown-item">Stock Out</a></li>
-                                    <li><a class="dropdown-item">Transfers</a></li>
-                                    <li><a class="dropdown-item">Adjustments</a></li>
-                                    <li><a class="dropdown-item">Disposal</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Procurement</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Requests</a></li>
-                                    <li><a class="dropdown-item">Purchase Orders</a></li>
-                                    <li><a class="dropdown-item">Deliveries</a></li>
-                                    <li><a class="dropdown-item">Receiving Logs</a></li>
-                                    <li><a class="dropdown-item">Vendors</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Maintenance</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Preventive Maintenance</a></li>
-                                    <li><a class="dropdown-item">Repairs</a></li>
-                                    <li><a class="dropdown-item">Warranty Tracking</a></li>
-                                    <li><a class="dropdown-item">Service History</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Low Stock</a></li>
-                                    <li><a class="dropdown-item">Expiring Items</a></li>
-                                    <li><a class="dropdown-item">Utilization Reports</a></li>
-                                    <li><a class="dropdown-item">Audit Trail</a></li>
-                                    <li><a class="dropdown-item">Inventory Summary</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                </div>
+                <button type="button" class="btn-close btn-close-white sidebar-offcanvas-close"
+                        data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+
+            <div class="sidebar-inner d-flex flex-column h-100">
+                <div class="sidebar-brand d-none d-lg-flex align-items-center">
+                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="32" height="32" class="sidebar-logo" />
+                    <div class="d-flex flex-column ms-2">
+                        <span class="sidebar-brand-title">STRATA</span>
+                        <span class="sidebar-brand-subtitle">Inventory Management System</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav flex-grow-1" aria-label="Primary">
+                    <a class="sidebar-link @(currentController == "Dashboard" ? "active" : string.Empty)" asp-area=""
+                           asp-controller="Dashboard" asp-action="Index">
+                        <span class="sidebar-link-dot"></span>
+                        Dashboard
+                    </a>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-group-label">Inventory</div>
+                        <a class="sidebar-sublink @(currentController == "Category" ? "active" : string.Empty)"
+                           asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                        <a class="sidebar-sublink @(currentController == "Brand" ? "active" : string.Empty)" asp-area=""
+                           asp-controller="Brand" asp-action="Index">Brands</a>
+                        <a class="sidebar-sublink @(currentController == "Consumable" ? "active" : string.Empty)"
+                           asp-area="" asp-controller="Consumable" asp-action="Index">Consumables</a>
+                        <a class="sidebar-sublink @(currentController == "SparePart" ? "active" : string.Empty)"
+                           asp-area="" asp-controller="SparePart" asp-action="Index">Spare Parts</a>
+                        <span class="sidebar-sublink disabled">Software Licenses</span>
+                    </div>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-group-label">Assets</div>
+                        <span class="sidebar-sublink disabled">Devices</span>
+                        <span class="sidebar-sublink disabled">Asset Tags</span>
+                        <span class="sidebar-sublink disabled">Assigned Equipment</span>
+                        <span class="sidebar-sublink disabled">Department Allocation</span>
+                        <span class="sidebar-sublink disabled">Room Locations</span>
+                    </div>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-group-label">Stock Movements</div>
+                        <span class="sidebar-sublink disabled">Stock In</span>
+                        <span class="sidebar-sublink disabled">Stock Out</span>
+                        <span class="sidebar-sublink disabled">Transfers</span>
+                        <span class="sidebar-sublink disabled">Adjustments</span>
+                        <span class="sidebar-sublink disabled">Disposal</span>
+                    </div>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-group-label">Procurement</div>
+                        <span class="sidebar-sublink disabled">Requests</span>
+                        <span class="sidebar-sublink disabled">Purchase Orders</span>
+                        <span class="sidebar-sublink disabled">Deliveries</span>
+                        <span class="sidebar-sublink disabled">Receiving Logs</span>
+                        <span class="sidebar-sublink disabled">Vendors</span>
+                    </div>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-group-label">Maintenance</div>
+                        <span class="sidebar-sublink disabled">Preventive Maintenance</span>
+                        <span class="sidebar-sublink disabled">Repairs</span>
+                        <span class="sidebar-sublink disabled">Warranty Tracking</span>
+                        <span class="sidebar-sublink disabled">Service History</span>
+                    </div>
+
+                    <div class="sidebar-group">
+                        <div class="sidebar-group-label">Reports</div>
+                        <span class="sidebar-sublink disabled">Low Stock</span>
+                        <span class="sidebar-sublink disabled">Expiring Items</span>
+                        <span class="sidebar-sublink disabled">Utilization Reports</span>
+                        <span class="sidebar-sublink disabled">Audit Trail</span>
+                        <span class="sidebar-sublink disabled">Inventory Summary</span>
+                    </div>
+                </nav>
+
+                <div class="sidebar-account">
                     <partial name="_LoginPartial" />
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </aside>
+
+        <div class="app-main">
+            <header class="mobile-topbar d-lg-none">
+                <button class="btn mobile-menu-button" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#appSidebar" aria-controls="appSidebar" aria-label="Open navigation menu">
+                    <span class="mobile-menu-icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 5h16" />
+                            <path d="M4 12h16" />
+                            <path d="M4 19h16" />
+                        </svg>
+                    </span>
+                </button>
+                <a class="mobile-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="28" height="28" />
+                    <span>STRATA</span>
+                </a>
+            </header>
+
+            <main role="main" class="app-content">
+                @RenderBody()
+            </main>
+        </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

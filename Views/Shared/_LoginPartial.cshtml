@@ -2,35 +2,44 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+@{
+    var userName = User.Identity?.Name ?? "User";
+    var initials = string.Concat(userName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(part =>
+part[0])).ToUpperInvariant();
+    if (string.IsNullOrWhiteSpace(initials))
+    {
+        initials = "U";
+    }
+}
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <div class="dropdown">
-            <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello @User.Identity?.Name!</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a></li>
-                    <li><a class="dropdown-item">Settings</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <form asp-area="Identity"
-                              asp-page="/Account/Logout"
-                              asp-route-returnUrl="@Url.Page("/Account/Login", new { area = "Identity" })"
-                              method="post"
-                              class="m-0">
-                            <button type="submit" class="dropdown-item">
-                                Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
+    <div class="dropdown account-dropdown dropup">
+        <button class="account-trigger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                aria-label="Open account menu" title="@userName">
+            <span class="account-avatar" aria-hidden="true">@initials</span>
+            <span class="account-user">@userName</span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-dark account-menu">
+            <div class="account-menu-header">
+                <div class="account-name">@userName</div>
+            </div>
+            <div class="account-menu-divider"></div>
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Your Profile</a>
+            <a class="dropdown-item" href="#">Settings</a>
+            <div class="account-menu-divider"></div>
+            <form asp-area="Identity" asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Page("/Account/Login", new { area = "Identity" })" method="post" class="m-0">
+                <button type="submit" class="dropdown-item">Logout</button>
+            </form>
         </div>
-    </li>
+    </div>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+    <a class="account-trigger account-trigger-guest" asp-area="Identity" asp-page="/Account/Login" aria-label="Login"
+           title="Login">
+        <span class="account-avatar" aria-hidden="true">U</span>
+        <span class="account-user">Login</span>
+    </a>
 }
-</ul>
