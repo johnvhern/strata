@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using Strata.Interfaces;
 
@@ -18,6 +17,7 @@ namespace Strata.Models
         public Category? Category { get; set; }
         public int? BrandId { get; set; }
         public Brand? Brand { get; set; }
+        public int Quantity { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
