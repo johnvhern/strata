@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Strata.Interfaces;
 using Strata.Models;
 using Strata.Services;
 
@@ -19,6 +20,7 @@ namespace Strata.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         public override int SaveChanges()
         {
@@ -35,27 +37,24 @@ namespace Strata.Data
             var username = _currentUserService.GetCurrentUsername();
 
             var auditedEntries = ChangeTracker
-                .Entries<Category>()
+                .Entries<IAuditableEntity>()
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
             foreach (var entry in auditedEntries)
             {
-                switch (entry.State)
+                if (entry.State == EntityState.Added)
                 {
-                    case EntityState.Added:
-                        entry.Entity.CreatedAt = timestamp;
-                        entry.Entity.CreatedBy = username;
-                        entry.Entity.UpdatedAt = timestamp;
-                        entry.Entity.UpdatedBy = username;
-                        break;
+                    entry.Entity.CreatedAt = timestamp;
+                    entry.Entity.CreatedBy = username;
+                }
 
-                    case EntityState.Modified:
-                        entry.Entity.UpdatedAt = timestamp;
-                        entry.Entity.UpdatedBy = username;
-                        // Prevent overwriting CreatedAt/CreatedBy
-                        entry.Property(c => c.CreatedAt).IsModified = false;
-                        entry.Property(c => c.CreatedBy).IsModified = false;
-                        break;
+                entry.Entity.UpdatedAt = timestamp;
+                entry.Entity.UpdatedBy = username;
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Property(x => x.CreatedAt).IsModified = false;
+                    entry.Property(x => x.CreatedBy).IsModified = false;
                 }
             }
 
