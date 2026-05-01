@@ -18,7 +18,11 @@ namespace Strata.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string searchString, int pageNumber = 1)
+        public async Task<IActionResult> Index(
+            string searchString,
+            bool? isActive,
+            int pageNumber = 1
+        )
         {
             int pageSize = 25;
 
@@ -27,6 +31,11 @@ namespace Strata.Controllers
             if (!string.IsNullOrWhiteSpace(searchString))
             {
                 query = query.Where(c => c.Name.Contains(searchString));
+            }
+
+            if (isActive.HasValue)
+            {
+                query = query.Where(c => c.IsActive == isActive.Value);
             }
 
             query = query.OrderBy(c => c.Name).ThenBy(c => c.Id);
@@ -38,6 +47,7 @@ namespace Strata.Controllers
             );
 
             ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentStatus"] = isActive;
             return View(pagedCategory);
         }
 
@@ -54,7 +64,7 @@ namespace Strata.Controllers
                 return View(model);
             }
 
-            var category = new Category { Name = model.Name };
+            var category = new Category { Name = model.Name, IsActive = model.IsActive };
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
@@ -77,7 +87,12 @@ namespace Strata.Controllers
                 return NotFound();
             }
 
-            var model = new CategoryViewModel { Id = category.Id, Name = category.Name };
+            var model = new CategoryViewModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+                IsActive = category.IsActive,
+            };
 
             return View(model);
         }
@@ -97,6 +112,7 @@ namespace Strata.Controllers
             }
 
             category.Name = model.Name;
+            category.IsActive = model.IsActive;
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 

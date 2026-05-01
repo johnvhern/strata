@@ -17,5 +17,6 @@ namespace Strata.Models
 
         [Required]
         public string UpdatedBy { get; set; } = string.Empty;
+        public bool IsActive { get; set; } = true;
     }
 }

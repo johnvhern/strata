@@ -15,11 +15,23 @@
 </div>
 
 <form asp-action="Index" method="get" class="row g-2 mb-3">
-    <div class="col-md-4">
-        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]"
-               class="form-control" placeholder="Search category" />
+    <div class="col-12 col-md-5">
+        <input type="text"
+               name="searchString"
+               value="@ViewData["CurrentFilter"]"
+               class="form-control"
+               placeholder="Search category" />
     </div>
-    <div class="col-auto">
+
+    <div class="col-12 col-md-3">
+        <select name="isActive" class="form-select">
+            <option value="">All</option>
+            <option value="true" selected="@(ViewData["CurrentStatus"]?.ToString() == "True")">Active</option>
+            <option value="false" selected="@(ViewData["CurrentStatus"]?.ToString() == "False")">Inactive</option>
+        </select>
+    </div>
+
+    <div class="col-12 col-md-1 d-grid">
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
 </form>
@@ -32,6 +44,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Created By</th>
+                    <th scope="col">Active</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -42,9 +55,13 @@
                         <td class="align-content-center">@category.Name</td>
                         <td class="align-content-center">@category.CreatedAt.ToString("MM/dd/yyyy")</td>
                         <td class="align-content-center">@category.CreatedBy</td>
+                        <td class="align-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" @(category.IsActive ? "checked" : "" ) disabled />
+                            </div>
+                        </td>
                         <td>
                             <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
-                            <a class="btn btn-danger btn-sm">Delete</a>
                         </td>
                     </tr>
                 }
@@ -61,7 +78,8 @@
                 <a class="page-link"
                    asp-action="Index"
                    asp-route-pageNumber="@(Model.PageIndex - 1)"
-                   asp-route-searchString="@ViewData["CurrentFilter"]">Previous</a>
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-statusFilter="@ViewData["CurrentStatus"]">Previous</a>
             </li>
 
             @for (int i = 1; i <= Model.TotalPages; i++)
@@ -70,7 +88,8 @@
                     <a class="page-link"
                        asp-action="Index"
                        asp-route-pageNumber="@i"
-                       asp-route-searchString="@ViewData["CurrentFilter"]">@i</a>
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-statusFilter="@ViewData["CurrentStatus"]">@i</a>
                 </li>
             }
 
@@ -78,7 +97,8 @@
                 <a class="page-link"
                    asp-action="Index"
                    asp-route-pageNumber="@(Model.PageIndex + 1)"
-                   asp-route-searchString="@ViewData["CurrentFilter"]">Next</a>
+                   asp-route-searchString="@ViewData["CurrentFilter"]"
+                   asp-route-statusFilter="@ViewData["CurrentStatus"]">Next</a>
             </li>
         </ul>
     </nav>
