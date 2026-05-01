@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
-using Strata.ViewModel;
 using Strata.ViewModel.Brand;
 
 namespace Strata.Controllers
@@ -68,9 +67,9 @@ namespace Strata.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -93,14 +92,19 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(BrandEditViewModel model)
+        public async Task<IActionResult> Edit(int id, BrandEditViewModel model)
         {
+            if (id != model.Id)
+            {
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var brand = await _context.Brands.FindAsync(model.Id);
+            var brand = await _context.Brands.FindAsync(id);
             if (brand == null)
             {
                 return NotFound();

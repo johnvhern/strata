@@ -74,9 +74,9 @@ namespace Strata.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -99,14 +99,19 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CategoryEditViewModel model)
+        public async Task<IActionResult> Edit(int id, CategoryEditViewModel model)
         {
+            if (id != model.Id)
+            {
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var category = await _context.Categories.FindAsync(model.Id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
