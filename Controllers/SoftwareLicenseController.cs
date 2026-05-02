@@ -147,7 +147,7 @@ namespace Strata.Controllers
                 return NotFound();
             }
 
-            var licenseVM = new SoftwareLicenseEditViewModel
+            var licenseVm = new SoftwareLicenseEditViewModel
             {
                 Id = license.Id,
                 Name = license.Name,
@@ -169,7 +169,7 @@ namespace Strata.Controllers
                     .ToListAsync(),
             };
 
-            return View(licenseVM);
+            return View(licenseVm);
         }
 
         [HttpPost]

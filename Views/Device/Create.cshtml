@@ -1,0 +1,70 @@
+﻿@model Strata.ViewModel.Device.DeviceCreateViewModel
+@{
+    ViewData["Title"] = "New Device";
+}
+
+<div class="d-flex gap-2 align-items-baseline">
+    <a asp-controller="Device" asp-action="Index"
+           class="btn btn-sm btn-outline-secondary d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-arrow-left-icon lucide-arrow-left">
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+        </svg>
+    </a>
+    <h3 class="mb-3 fw-bold">New Device</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-controller="Device" asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" placeholder="ADATA DDR5 RAM" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control"
+                          placeholder="CL40 5600MHz" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-12 col-md-6 mb-3">
+                    <label asp-for="Model" class="form-label">Model</label>
+                    <input asp-for="Model" class="form-control" placeholder="123" />
+                    <span asp-validation-for="Model" class="text-danger small"></span>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <label asp-for="SerialNumber" class="form-label">Serial Number</label>
+                    <input asp-for="SerialNumber" class="form-control" placeholder="12345ABC" />
+                    <span asp-validation-for="SerialNumber" class="text-danger small"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="BrandId" class="form-label">Brand</label>
+                <select asp-for="BrandId" class="form-select" asp-items="Model.BrandOptions">
+                    <option value="">Select a brand</option>
+                </select>
+                <span asp-validation-for="BrandId" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="Model.CategoryOptions">
+                    <option value="">Select a category</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" asp-for="IsActive" type="checkbox" role="switch" checked />
+                    <label class="form-check-label" asp-for="IsActive">Is Active</label>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

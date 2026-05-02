@@ -24,6 +24,7 @@ namespace Strata.Data
         public DbSet<Consumable> Consumables { get; set; }
         public DbSet<SparePart> SpareParts { get; set; }
         public DbSet<SoftwareLicense> SoftwareLicenses { get; set; }
+        public DbSet<Device> Devices { get; set; }
 
         public override int SaveChanges()
         {

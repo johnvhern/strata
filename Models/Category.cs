@@ -19,5 +19,7 @@ namespace Strata.Models
         public ICollection<SparePart>? SpareParts { get; set; } = new List<SparePart>();
         public ICollection<SoftwareLicense>? SoftwareLicenses { get; set; } =
             new List<SoftwareLicense>();
+        public ICollection<Device>? Devices { get; set; } =
+            new List<Device>();
     }
 }

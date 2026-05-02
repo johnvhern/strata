@@ -6,7 +6,7 @@ namespace Strata.ViewModel.SoftwareLicense
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
         public string? Name { get; set; }

@@ -62,7 +62,8 @@
 
                     <div class="sidebar-group">
                         <div class="sidebar-group-label">Assets</div>
-                        <span class="sidebar-sublink disabled">Devices</span>
+                        <a class="sidebar-sublink @(currentController == "Device" ? "active" : string.Empty)"
+                           asp-area="" asp-controller="Device" asp-action="Index">Devices</a>
                         <span class="sidebar-sublink disabled">Asset Tags</span>
                         <span class="sidebar-sublink disabled">Assigned Equipment</span>
                         <span class="sidebar-sublink disabled">Department Allocation</span>

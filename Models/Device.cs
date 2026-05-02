@@ -3,17 +3,17 @@ using Strata.Interfaces;
 
 namespace Strata.Models
 {
-    public class SparePart : IAuditableEntity
+    public class Device : IAuditableEntity
     {
         public int Id { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; } = null!;
-
+        public string Name { get; set; } = string.Empty;
         [StringLength(255)]
         public string? Description { get; set; }
-
+        [StringLength(100)]
+        public string? Model { get; set; }
         [StringLength(50)]
         public string? SerialNumber { get; set; }
         public int? CategoryId { get; set; }
