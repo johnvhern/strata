@@ -4,6 +4,8 @@
     ViewData["Title"] = "Categories";
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var startItem = ((Model.PageIndex - 1) * Model.PageSize) + 1;
+    var endItem = startItem + Model.Count - 1;
 }
 
 <div class="d-flex justify-content-between mb-3">
@@ -70,36 +72,36 @@
     </div>
 </div>
 
-@if (Model.TotalPages > 1)
-{
-    <nav aria-label="Inventory pagination">
-        <ul class="pagination justify-content-center">
-            <li class="page-item @prevDisabled">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageIndex - 1)"
-                   asp-route-searchString="@ViewData["CurrentFilter"]"
-                   asp-route-statusFilter="@ViewData["CurrentStatus"]">Previous</a>
-            </li>
+<div class="align-items-center justify-content-between d-sm-block d-lg-flex">
+    <p class="text-muted mb-2 small">
+        Showing @startItem to @endItem of @Model.TotalCount entries
+    </p>
 
-            @for (int i = 1; i <= Model.TotalPages; i++)
-            {
-                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-pageNumber="@i"
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Brand pagination">
+            <ul class="pagination pagination-sm justify-content-center">
+                <li class="page-item @prevDisabled">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)"
                        asp-route-searchString="@ViewData["CurrentFilter"]"
-                       asp-route-statusFilter="@ViewData["CurrentStatus"]">@i</a>
+                       asp-route-statusFilter="@ViewData["CurrentStatus"]">Previous</a>
                 </li>
-            }
 
-            <li class="page-item @nextDisabled">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageIndex + 1)"
-                   asp-route-searchString="@ViewData["CurrentFilter"]"
-                   asp-route-statusFilter="@ViewData["CurrentStatus"]">Next</a>
-            </li>
-        </ul>
-    </nav>
-}
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i"
+                           asp-route-searchString="@ViewData["CurrentFilter"]"
+                           asp-route-statusFilter="@ViewData["CurrentStatus"]">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @nextDisabled">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-statusFilter="@ViewData["CurrentStatus"]">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>

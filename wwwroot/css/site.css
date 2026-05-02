@@ -209,7 +209,6 @@ a:hover {
 
 .form-switch .form-check-input {
   width: 2.25em;
-  margin-left: -2.75em;
   background-color: rgba(16, 35, 66, 0.16);
   border-color: rgba(var(--brand-blue-rgb), 0.28);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(16, 35, 66, 0.34)'/%3e%3c/svg%3e");
@@ -238,7 +237,7 @@ a:hover {
 
 .table {
   --bs-table-color: var(--bs-body-color);
-  --bs-table-bg: #ffffff;
+/*  --bs-table-bg: #ffffff;*/
   --bs-table-border-color: var(--bs-border-color);
   --bs-table-striped-bg: #f6f9fb;
   --bs-table-hover-bg: #eaf3f7;

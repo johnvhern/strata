@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
@@ -7,6 +8,7 @@ using Strata.ViewModel.Brand;
 
 namespace Strata.Controllers
 {
+    [Authorize]
     public class BrandController : Controller
     {
         private readonly ApplicationDbContext _context;
