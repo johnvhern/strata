@@ -16,5 +16,8 @@ namespace Strata.Models
         public string? UpdatedBy { get; set; }
         public bool IsActive { get; set; } = true;
         public ICollection<Consumable>? Consumables { get; set; } = new List<Consumable>();
+        public ICollection<SparePart>? SpareParts { get; set; } = new List<SparePart>();
+        public ICollection<SoftwareLicense>? SoftwareLicenses { get; set; } =
+            new List<SoftwareLicense>();
     }
 }

@@ -80,18 +80,6 @@ namespace Strata.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ConsumableCreateViewModel model)
         {
-            if (
-                await _context.Consumables.AnyAsync(c =>
-                    c.Name.ToLower() == model.Name.ToLower().Trim()
-                )
-            )
-            {
-                ModelState.AddModelError(
-                    nameof(model.Name),
-                    "A consumable with the same name already exists."
-                );
-            }
-
             if (!ModelState.IsValid)
             {
                 model.BrandOptions = await _context
@@ -107,6 +95,18 @@ namespace Strata.Controllers
                     .ToListAsync();
 
                 return View(model);
+            }
+
+            if (
+                await _context.Consumables.AnyAsync(c =>
+                    c.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "A consumable with the same name already exists."
+                );
             }
 
             var consumable = new Consumable
@@ -170,18 +170,6 @@ namespace Strata.Controllers
                 return BadRequest();
             }
 
-            if (
-                await _context.Consumables.AnyAsync(c =>
-                    c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
-                )
-            )
-            {
-                ModelState.AddModelError(
-                    nameof(model.Name),
-                    "Another consumable with the same name already exists."
-                );
-            }
-
             if (!ModelState.IsValid)
             {
                 model.BrandOptions = await _context
@@ -197,6 +185,18 @@ namespace Strata.Controllers
                 return View(model);
             }
 
+            if (
+                await _context.Consumables.AnyAsync(c =>
+                    c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "Another consumable with the same name already exists."
+                );
+            }
+
             var consumable = await _context.Consumables.FindAsync(id);
 
             if (consumable == null)
@@ -209,6 +209,8 @@ namespace Strata.Controllers
             consumable.BrandId = model.BrandId;
             consumable.CategoryId = model.CategoryId;
             consumable.IsActive = model.IsActive;
+
+            _context.Consumables.Update(consumable);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

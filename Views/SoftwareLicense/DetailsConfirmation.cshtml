@@ -1,0 +1,41 @@
+﻿@model Strata.ViewModel.SoftwareLicense.SoftwareLicenseDetailsViewModel
+
+@{
+    ViewData["Title"] = "Confirm Product Key Access";
+}
+
+<div class="d-flex gap-2 align-items-baseline">
+    <a asp-controller="SoftwareLicense" asp-action="Index"
+           class="btn btn-sm btn-outline-secondary d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-arrow-left-icon lucide-arrow-left">
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+        </svg>
+    </a>
+    <h3 class="mb-3 fw-bold">Confirm Product Key Access</h3>
+</div>
+
+<p>
+    Product: <strong>@Model.Name</strong>
+</p>
+
+<form asp-action="DetailsConfirmation" method="post">
+    <input asp-for="Id" type="hidden" />
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Verify Password</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ProductKey))
+{
+    <hr />
+    <div class="alert alert-success">
+        <strong>Product Key:</strong> @Model.ProductKey
+    </div>
+}

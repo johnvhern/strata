@@ -23,6 +23,7 @@ namespace Strata.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Consumable> Consumables { get; set; }
         public DbSet<SparePart> SpareParts { get; set; }
+        public DbSet<SoftwareLicense> SoftwareLicenses { get; set; }
 
         public override int SaveChanges()
         {

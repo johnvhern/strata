@@ -1,0 +1,70 @@
+﻿@model Strata.ViewModel.SoftwareLicense.SoftwareLicenseEditViewModel
+@{
+    ViewData["Title"] = "Edit Software License";
+}
+
+<div class="d-flex gap-2 align-items-baseline">
+    <a asp-controller="SoftwareLicense" asp-action="Index"
+           class="btn btn-sm btn-outline-secondary d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-arrow-left-icon lucide-arrow-left">
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+        </svg>
+    </a>
+    <h3 class="mb-3 fw-bold">Edit Software License</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-controller="SoftwareLicense" asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Windows 11 License" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control"
+                          placeholder="For Windows 11 Pro" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ProductKey" class="form-label">Product Key</label>
+                <textarea asp-for="ProductKey" class="form-control"
+                          placeholder="A79AJSNMAASJKAJ" rows="3"></textarea>
+                <span asp-validation-for="ProductKey" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ExpirationDate" class="form-label">Expiration Date</label>
+                <input asp-for="ExpirationDate" class="form-control" type="date" />
+                <span asp-validation-for="ExpirationDate" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="BrandId" class="form-label">Brand</label>
+                <select asp-for="BrandId" class="form-select" asp-items="Model.BrandOptions">
+                    <option value="">Select a brand</option>
+                </select>
+                <span asp-validation-for="BrandId" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label">Category</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="Model.CategoryOptions">
+                    <option value="">Select a category</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" asp-for="IsActive" type="checkbox" role="switch" checked />
+                    <label class="form-check-label" asp-for="IsActive">Is Active</label>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

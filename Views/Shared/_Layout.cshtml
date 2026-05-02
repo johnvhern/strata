@@ -56,7 +56,8 @@
                            asp-area="" asp-controller="Consumable" asp-action="Index">Consumables</a>
                         <a class="sidebar-sublink @(currentController == "SparePart" ? "active" : string.Empty)"
                            asp-area="" asp-controller="SparePart" asp-action="Index">Spare Parts</a>
-                        <span class="sidebar-sublink disabled">Software Licenses</span>
+                        <a class="sidebar-sublink @(currentController == "SoftwareLicense" ? "active" : string.Empty)"
+                           asp-area="" asp-controller="SoftwareLicense" asp-action="Index">Software Licenses</a>
                     </div>
 
                     <div class="sidebar-group">

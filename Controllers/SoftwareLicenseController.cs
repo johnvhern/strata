@@ -1,22 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
-using Strata.ViewModel.SparePart;
+using Strata.ViewModel.SoftwareLicense;
 
 namespace Strata.Controllers
 {
     [Authorize]
-    public class SparePartController : Controller
+    public class SoftwareLicenseController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public SparePartController(ApplicationDbContext context)
+        public SoftwareLicenseController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager
+        )
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index(
@@ -28,7 +34,7 @@ namespace Strata.Controllers
             int pageSize = 25;
 
             var query = _context
-                .SpareParts.AsNoTracking()
+                .SoftwareLicenses.AsNoTracking()
                 .Include(c => c.Brand)
                 .Include(c => c.Category)
                 .AsQueryable();
@@ -45,7 +51,7 @@ namespace Strata.Controllers
 
             query = query.OrderBy(c => c.Name).ThenBy(c => c.Id);
 
-            var pageSparePart = await PaginatedList<SparePart>.CreateAsync(
+            var pagedSoftwareLicense = await PaginatedList<SoftwareLicense>.CreateAsync(
                 query,
                 pageNumber,
                 pageSize
@@ -54,12 +60,12 @@ namespace Strata.Controllers
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentStatus"] = isActive;
 
-            return View(pageSparePart);
+            return View(pagedSoftwareLicense);
         }
 
         public async Task<IActionResult> Create()
         {
-            var vm = new SparePartCreateViewModel
+            var vm = new SoftwareLicenseCreateViewModel
             {
                 BrandOptions = await _context
                     .Brands.Where(b => b.IsActive)
@@ -78,7 +84,7 @@ namespace Strata.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SparePartCreateViewModel model)
+        public async Task<IActionResult> Create(SoftwareLicenseCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -98,29 +104,31 @@ namespace Strata.Controllers
             }
 
             if (
-                await _context.SpareParts.AnyAsync(sp =>
-                    sp.Name.ToLower() == model.Name.ToLower().Trim()
+                await _context.SoftwareLicenses.AnyAsync(c =>
+                    c.Name.ToLower() == model.Name.ToLower().Trim()
                 )
             )
             {
                 ModelState.AddModelError(
                     nameof(model.Name),
-                    "A spare part with the same name already exists."
+                    "A license with the same name already exists."
                 );
             }
 
-            var sparePart = new SparePart
+            var license = new SoftwareLicense
             {
                 Name = model.Name,
                 Description = model.Description,
-                SerialNumber = model.SerialNumber,
+                ProductKey = model.ProductKey,
+                ExpirationDate = model.ExpirationDate,
                 BrandId = model.BrandId,
                 CategoryId = model.CategoryId,
                 IsActive = model.IsActive,
             };
 
-            _context.SpareParts.Add(sparePart);
+            _context.SoftwareLicenses.Add(license);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -132,22 +140,23 @@ namespace Strata.Controllers
                 return NotFound();
             }
 
-            var sp = await _context.SpareParts.FirstOrDefaultAsync(c => c.Id == id);
+            var license = await _context.SoftwareLicenses.FirstOrDefaultAsync(l => l.Id == id);
 
-            if (sp == null)
+            if (license == null)
             {
                 return NotFound();
             }
 
-            var sparePart = new SparePartEditViewModel
+            var licenseVM = new SoftwareLicenseEditViewModel
             {
-                Id = sp.Id,
-                Name = sp.Name,
-                Description = sp.Description,
-                SerialNumber = sp.SerialNumber,
-                BrandId = sp.BrandId,
-                CategoryId = sp.CategoryId,
-                IsActive = sp.IsActive,
+                Id = license.Id,
+                Name = license.Name,
+                Description = license.Description,
+                ProductKey = license.ProductKey,
+                ExpirationDate = license.ExpirationDate,
+                CategoryId = license.CategoryId,
+                BrandId = license.BrandId,
+                IsActive = license.IsActive,
                 BrandOptions = await _context
                     .Brands.Where(b => b.IsActive)
                     .OrderBy(b => b.Name)
@@ -160,11 +169,11 @@ namespace Strata.Controllers
                     .ToListAsync(),
             };
 
-            return View(sparePart);
+            return View(licenseVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, SparePartEditViewModel model)
+        public async Task<IActionResult> Edit(int id, SoftwareLicenseEditViewModel model)
         {
             if (id != model.Id)
             {
@@ -183,39 +192,84 @@ namespace Strata.Controllers
                     .OrderBy(c => c.Name)
                     .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
                     .ToListAsync();
-
                 return View(model);
             }
 
             if (
-                await _context.SpareParts.AnyAsync(sp =>
-                    sp.Id != model.Id && sp.Name.ToLower() == model.Name.ToLower().Trim()
+                await _context.SoftwareLicenses.AnyAsync(l =>
+                    l.Id != model.Id && l.Name.ToLower() == model.Name.ToLower().Trim()
                 )
             )
             {
                 ModelState.AddModelError(
                     nameof(model.Name),
-                    "Another spare part with the same name already exists."
+                    "Another license with the same name already exists."
                 );
             }
 
-            var sp = await _context.SpareParts.FindAsync(id);
+            var license = await _context.SoftwareLicenses.FindAsync(id);
 
-            if (sp == null)
+            if (license == null)
             {
                 return NotFound();
             }
 
-            sp.Name = model.Name;
-            sp.Description = model.Description;
-            sp.SerialNumber = model.SerialNumber;
-            sp.BrandId = model.BrandId;
-            sp.CategoryId = model.CategoryId;
-            sp.IsActive = model.IsActive;
+            license.Name = model.Name;
+            license.Description = model.Description;
+            license.ProductKey = model.ProductKey;
+            license.ExpirationDate = model.ExpirationDate;
+            license.CategoryId = model.CategoryId;
+            license.BrandId = model.BrandId;
+            license.IsActive = model.IsActive;
 
-            _context.SpareParts.Update(sp);
+            _context.SoftwareLicenses.Update(license);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsConfirmation(int id)
+        {
+            var license = await _context.SoftwareLicenses.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (license == null)
+                return NotFound();
+
+            var vm = new SoftwareLicenseDetailsViewModel { Id = license.Id, Name = license.Name };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DetailsConfirmation(SoftwareLicenseDetailsViewModel model)
+        {
+            var license = await _context.SoftwareLicenses.FirstOrDefaultAsync(x =>
+                x.Id == model.Id
+            );
+
+            if (license == null)
+                return NotFound();
+
+            model.Name = license.Name;
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
+
+            var validPassword = await _userManager.CheckPasswordAsync(user, model.Password);
+            if (!validPassword)
+            {
+                ModelState.AddModelError(nameof(model.Password), "Incorrect password.");
+                return View(model);
+            }
+
+            model.ProductKey = license.ProductKey;
+            model.Password = string.Empty;
+
+            return View(model);
         }
     }
 }

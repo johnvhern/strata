@@ -59,6 +59,11 @@ namespace Strata.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             if (
                 await _context.Categories.AnyAsync(c =>
                     c.Name.ToLower() == model.Name.ToLower().Trim()
@@ -69,11 +74,6 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "A category with the same name already exists."
                 );
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
             }
 
             var category = new Category { Name = model.Name, IsActive = model.IsActive };
@@ -117,6 +117,11 @@ namespace Strata.Controllers
                 return BadRequest();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             if (
                 await _context.Categories.AnyAsync(c =>
                     c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
@@ -127,11 +132,6 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "Another category with the same name already exists."
                 );
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
             }
 
             var category = await _context.Categories.FindAsync(id);

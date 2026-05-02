@@ -73,9 +73,18 @@
 </div>
 
 <div class="align-items-center justify-content-between d-sm-block d-lg-flex">
-    <p class="text-muted mb-2 small">
-        Showing @startItem to @endItem of @Model.TotalCount entries
-    </p>
+    @if (Model.TotalCount == 0)
+    {
+        <p class="text-muted mb-2 small">
+            Showing 0 entries
+        </p>
+    }
+    else
+    {
+        <p class="text-muted mb-2 small">
+            Showing @startItem to @endItem of @Model.TotalCount entries
+        </p>
+    }
 
     @if (Model.TotalPages > 1)
     {
