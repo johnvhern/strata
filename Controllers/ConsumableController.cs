@@ -80,6 +80,18 @@ namespace Strata.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ConsumableCreateViewModel model)
         {
+            if (
+                await _context.Consumables.AnyAsync(c =>
+                    c.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "A consumable with the same name already exists."
+                );
+            }
+
             if (!ModelState.IsValid)
             {
                 model.BrandOptions = await _context
@@ -156,6 +168,18 @@ namespace Strata.Controllers
             if (id != model.Id)
             {
                 return BadRequest();
+            }
+
+            if (
+                await _context.Consumables.AnyAsync(c =>
+                    c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "Another consumable with the same name already exists."
+                );
             }
 
             if (!ModelState.IsValid)

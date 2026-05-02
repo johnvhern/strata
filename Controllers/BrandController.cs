@@ -55,6 +55,16 @@ namespace Strata.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BrandCreateViewModel model)
         {
+            if (
+                await _context.Brands.AnyAsync(b => b.Name.ToLower() == model.Name.ToLower().Trim())
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "A brand with the same name already exists."
+                );
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -99,6 +109,18 @@ namespace Strata.Controllers
             if (id != model.Id)
             {
                 return BadRequest();
+            }
+
+            if (
+                await _context.Brands.AnyAsync(b =>
+                    b.Id != model.Id && b.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "Another brand with the same name already exists."
+                );
             }
 
             if (!ModelState.IsValid)

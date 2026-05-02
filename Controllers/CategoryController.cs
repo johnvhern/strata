@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
-using Strata.ViewModel;
 using Strata.ViewModel.Category;
 
 namespace Strata.Controllers
@@ -60,6 +59,18 @@ namespace Strata.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateViewModel model)
         {
+            if (
+                await _context.Categories.AnyAsync(c =>
+                    c.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "A category with the same name already exists."
+                );
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -104,6 +115,18 @@ namespace Strata.Controllers
             if (id != model.Id)
             {
                 return BadRequest();
+            }
+
+            if (
+                await _context.Categories.AnyAsync(c =>
+                    c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "Another category with the same name already exists."
+                );
             }
 
             if (!ModelState.IsValid)

@@ -80,6 +80,18 @@ namespace Strata.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SparePartCreateViewModel model)
         {
+            if (
+                await _context.SpareParts.AnyAsync(sp =>
+                    sp.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "A spare part with the same name already exists."
+                );
+            }
+
             if (!ModelState.IsValid)
             {
                 model.BrandOptions = await _context
@@ -157,6 +169,18 @@ namespace Strata.Controllers
             if (id != model.Id)
             {
                 return BadRequest();
+            }
+
+            if (
+                await _context.SpareParts.AnyAsync(sp =>
+                    sp.Id != model.Id && sp.Name.ToLower() == model.Name.ToLower().Trim()
+                )
+            )
+            {
+                ModelState.AddModelError(
+                    nameof(model.Name),
+                    "Another spare part with the same name already exists."
+                );
             }
 
             if (!ModelState.IsValid)
