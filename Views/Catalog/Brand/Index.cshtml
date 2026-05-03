@@ -10,7 +10,7 @@
 
 <div class="d-flex justify-content-between mb-3">
     <h3 class="fw-bold">Brands</h3>
-    <a asp-controller="Brand" asp-action="Create" class="btn btn-primary d-flex align-items-center gap-1">
+    <button type="button" class="btn btn-primary d-flex align-items-center gap-1 js-brand-create" data-bs-toggle="ajax-modal" data-url="@Url.Action("Create", "Brand")">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
              class="lucide lucide-plus-icon lucide-plus">
@@ -18,7 +18,7 @@
             <path d="M12 5v14" />
         </svg>
         <span>Create</span>
-    </a>
+    </button>
 </div>
 
 <form asp-action="Index" method="get" class="row g-2 mb-3">
@@ -30,6 +30,8 @@
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
 </form>
+
+<div id="modal-placeholder"></div>
 
 <div class="card mb-3">
     <div class="card-body table-responsive">
@@ -50,8 +52,8 @@
                         <td class="align-content-center">@brand.CreatedAt.ToString("MM/dd/yyyy")</td>
                         <td class="align-content-center">@brand.CreatedBy</td>
                         <td>
-                            <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@brand.Id">Edit</a>
-                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@brand.Id">Delete</a>
+                            <button type="button" class="btn btn-secondary btn-sm js-brand-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Brand", new { id = brand.Id })">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm js-brand-update" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Brand", new { id = brand.Id })">Delete</button>
                         </td>
                     </tr>
                 }
@@ -99,3 +101,37 @@
         </nav>
     }
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            AppUI.showToastFromQuery('created', 'Successfully created brand!', 'success');
+            AppUI.showToastFromQuery('updated', 'Brand successfully updated!', 'info');
+
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-brand-create',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#createModal',
+                formSelector: '#brandCreateForm',
+                saveButtonSelector: '.js-save-create-brand',
+                successRedirectUrl: '@Url.Action("Index", "Brand")',
+                successQueryKey: 'created',
+                errorMessage: 'Error creating brand!'
+            });
+
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-brand-edit',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#editModal',
+                formSelector: '#brandEditForm',
+                saveButtonSelector: '.js-save-edit-brand',
+                successRedirectUrl: '@Url.Action("Index", "Brand")',
+                successQueryKey: 'updated',
+                errorMessage: 'Error updating brand!'
+            });
+        });
+    </script>
+}

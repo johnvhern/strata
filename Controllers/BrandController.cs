@@ -42,7 +42,7 @@ namespace Strata.Controllers
 
         public IActionResult Create()
         {
-            return View("~/Views/Catalog/Brand/Create.cshtml");
+            return PartialView("~/Views/Catalog/Brand/_CreatePartial.cshtml", new BrandCreateViewModel());
         }
 
         [HttpPost]
@@ -50,7 +50,7 @@ namespace Strata.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Catalog/Brand/Create.cshtml", model);
+                return PartialView("~/Views/Catalog/Brand/_CreatePartial.cshtml", model);
             }
 
             if (
@@ -61,7 +61,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "A brand with the same name already exists."
                 );
-                return View("~/Views/Catalog/Brand/Create.cshtml", model);
+                return PartialView("~/Views/Catalog/Brand/_CreatePartial.cshtml", model);
             }
 
             var brand = new Brand { Name = model.Name};
@@ -69,7 +69,10 @@ namespace Strata.Controllers
             _context.Brands.Add(brand);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return Json(new
+            {
+                success = true
+            });
         }
 
         [HttpGet]
@@ -93,7 +96,7 @@ namespace Strata.Controllers
                 Name = brand.Name,
             };
 
-            return View("~/Views/Catalog/Brand/Edit.cshtml", model);
+            return PartialView("~/Views/Catalog/Brand/_EditPartial.cshtml", model);
         }
 
         [HttpPost]
@@ -106,7 +109,7 @@ namespace Strata.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Catalog/Brand/Edit.cshtml", model);
+                return PartialView("~/Views/Catalog/Brand/_EditPartial.cshtml", model);
             }
 
             if (
@@ -119,7 +122,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "Another brand with the same name already exists."
                 );
-                return View("~/Views/Catalog/Brand/Edit.cshtml", model);
+                return PartialView("~/Views/Catalog/Brand/_EditPartial.cshtml", model);
             }
 
             var brand = await _context.Brands.FindAsync(id);
@@ -132,7 +135,10 @@ namespace Strata.Controllers
             _context.Brands.Update(brand);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return Json(new
+            {
+                success = true
+            });
         }
     }
 }

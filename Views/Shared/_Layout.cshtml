@@ -9,119 +9,123 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Strata.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 @{
     var currentController = ViewContext.RouteData.Values["Controller"]?.ToString() ?? string.Empty;
 }
 
 <body>
-    <div class="app-shell">
-        <aside class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="appSidebar"
-               aria-labelledby="appSidebarLabel">
-            <div class="offcanvas-header d-lg-none sidebar-offcanvas-header">
-                <div class="sidebar-brand d-flex align-items-center" id="appSidebarLabel">
-                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="32" height="32" class="sidebar-logo" />
-                    <div class="d-flex flex-column ms-2">
-                        <span class="sidebar-brand-title">STRATA</span>
-                        <span class="sidebar-brand-subtitle">Inventory Management System</span>
-                    </div>
-                </div>
-                <button type="button" class="btn-close btn-close-white sidebar-offcanvas-close"
-                        data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-
-            <div class="sidebar-inner d-flex flex-column h-100">
-                <div class="sidebar-brand d-none d-lg-flex align-items-center">
-                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="32" height="32" class="sidebar-logo" />
-                    <div class="d-flex flex-column ms-2">
-                        <span class="sidebar-brand-title">STRATA</span>
-                        <span class="sidebar-brand-subtitle">Inventory Management System</span>
-                    </div>
-                </div>
-
-                <nav class="sidebar-nav flex-grow-1" aria-label="Primary">
-                    <a class="sidebar-link @(currentController == "Dashboard" ? "active" : string.Empty)" asp-area=""
-                           asp-controller="Dashboard" asp-action="Index">
-                        <span class="sidebar-link-dot"></span>
-                        Dashboard
-                    </a>
-
-                    <div class="sidebar-group">
-                        <div class="sidebar-group-label">Catalog</div>
-                        <a class="sidebar-sublink @(currentController == "Item" ? "active" : string.Empty)"
-                           asp-area="" asp-controller="Item" asp-action="Index">Items</a>
-                        <a class="sidebar-sublink @(currentController == "Category" ? "active" : string.Empty)"
-                           asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
-                        <a class="sidebar-sublink @(currentController == "Brand" ? "active" : string.Empty)" asp-area=""
-                           asp-controller="Brand" asp-action="Index">Brands</a>
-                        <a class="sidebar-sublink @(currentController == "Unit" ? "active" : string.Empty)" asp-area=""
-                           asp-controller="Unit" asp-action="Index">Units</a>
-                    </div>
-
-                    <div class="sidebar-group">
-                        <div class="sidebar-group-label">Assets</div>
-                        <span class="sidebar-sublink disabled">Asset List</span>
-                        <span class="sidebar-sublink disabled">Locations</span>
-                        <span class="sidebar-sublink disabled">Departments</span>
-                    </div>
-
-                    <div class="sidebar-group">
-                        <div class="sidebar-group-label">Stock</div>
-                        <span class="sidebar-sublink disabled">On-Hand</span>
-                        <span class="sidebar-sublink disabled">Movements</span>
-                        <span class="sidebar-sublink disabled">Stock In</span>
-                        <span class="sidebar-sublink disabled">Stock Out</span>
-                        <span class="sidebar-sublink disabled">Adjustments</span>
-                    </div>
-
-                    <div class="sidebar-group">
-                        <div class="sidebar-group-label">Maintenance</div>
-                        <span class="sidebar-sublink disabled">Work Orders</span>
-                        <span class="sidebar-sublink disabled">Service History</span>
-                    </div>
-
-                    <div class="sidebar-group">
-                        <div class="sidebar-group-label">Administration</div>
-                        <span class="sidebar-sublink disabled">Users</span>
-                        <span class="sidebar-sublink disabled">Roles</span>
-                        <span class="sidebar-sublink disabled">Suppliers</span>
-                    </div>
-                </nav>
-
-                <div class="sidebar-account">
-                    <partial name="_LoginPartial" />
+<div class="app-shell">
+    <aside class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="appSidebar"
+           aria-labelledby="appSidebarLabel">
+        <div class="offcanvas-header d-lg-none sidebar-offcanvas-header">
+            <div class="sidebar-brand d-flex align-items-center" id="appSidebarLabel">
+                <img src="~/img/logo_outline.png" alt="Strata Logo" width="32" height="32" class="sidebar-logo" />
+                <div class="d-flex flex-column ms-2">
+                    <span class="sidebar-brand-title">STRATA</span>
+                    <span class="sidebar-brand-subtitle">Inventory Management System</span>
                 </div>
             </div>
-        </aside>
-
-        <div class="app-main">
-            <header class="mobile-topbar d-lg-none">
-                <button class="btn mobile-menu-button" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#appSidebar" aria-controls="appSidebar" aria-label="Open navigation menu">
-                    <span class="mobile-menu-icon" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 5h16" />
-                            <path d="M4 12h16" />
-                            <path d="M4 19h16" />
-                        </svg>
-                    </span>
-                </button>
-                <a class="mobile-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">
-                    <img src="~/img/logo_outline.png" alt="Strata Logo" width="28" height="28" />
-                    <span>STRATA</span>
-                </a>
-            </header>
-
-            <main role="main" class="app-content">
-                @RenderBody()
-            </main>
+            <button type="button" class="btn-close btn-close-white sidebar-offcanvas-close"
+                    data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
+
+        <div class="sidebar-inner d-flex flex-column h-100">
+            <div class="sidebar-brand d-none d-lg-flex align-items-center">
+                <img src="~/img/logo_outline.png" alt="Strata Logo" width="32" height="32" class="sidebar-logo" />
+                <div class="d-flex flex-column ms-2">
+                    <span class="sidebar-brand-title">STRATA</span>
+                    <span class="sidebar-brand-subtitle">Inventory Management System</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav flex-grow-1" aria-label="Primary">
+                <a class="sidebar-link @(currentController == "Dashboard" ? "active" : string.Empty)" asp-area=""
+                   asp-controller="Dashboard" asp-action="Index">
+                    <span class="sidebar-link-dot"></span>
+                    Dashboard
+                </a>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label">Catalog</div>
+                    <a class="sidebar-sublink @(currentController == "Item" ? "active" : string.Empty)"
+                       asp-area="" asp-controller="Item" asp-action="Index">Items</a>
+                    <a class="sidebar-sublink @(currentController == "Category" ? "active" : string.Empty)"
+                       asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                    <a class="sidebar-sublink @(currentController == "Brand" ? "active" : string.Empty)" asp-area=""
+                       asp-controller="Brand" asp-action="Index">Brands</a>
+                    <a class="sidebar-sublink @(currentController == "Unit" ? "active" : string.Empty)" asp-area=""
+                       asp-controller="Unit" asp-action="Index">Units</a>
+                </div>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label">Assets</div>
+                    <span class="sidebar-sublink disabled">Asset List</span>
+                    <span class="sidebar-sublink disabled">Locations</span>
+                    <span class="sidebar-sublink disabled">Departments</span>
+                </div>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label">Stock</div>
+                    <span class="sidebar-sublink disabled">On-Hand</span>
+                    <span class="sidebar-sublink disabled">Movements</span>
+                    <span class="sidebar-sublink disabled">Stock In</span>
+                    <span class="sidebar-sublink disabled">Stock Out</span>
+                    <span class="sidebar-sublink disabled">Adjustments</span>
+                </div>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label">Maintenance</div>
+                    <span class="sidebar-sublink disabled">Work Orders</span>
+                    <span class="sidebar-sublink disabled">Service History</span>
+                </div>
+
+                <div class="sidebar-group">
+                    <div class="sidebar-group-label">Administration</div>
+                    <span class="sidebar-sublink disabled">Users</span>
+                    <span class="sidebar-sublink disabled">Roles</span>
+                    <span class="sidebar-sublink disabled">Suppliers</span>
+                </div>
+            </nav>
+
+            <div class="sidebar-account">
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </aside>
+
+    <div class="app-main">
+        <header class="mobile-topbar d-lg-none">
+            <button class="btn mobile-menu-button" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#appSidebar" aria-controls="appSidebar" aria-label="Open navigation menu">
+                <span class="mobile-menu-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 5h16" />
+                        <path d="M4 12h16" />
+                        <path d="M4 19h16" />
+                    </svg>
+                </span>
+            </button>
+            <a class="mobile-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                <img src="~/img/logo_outline.png" alt="Strata Logo" width="28" height="28" />
+                <span>STRATA</span>
+            </a>
+        </header>
+
+        <main role="main" class="app-content">
+            @RenderBody()
+        </main>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="~/js/crudmodal.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
