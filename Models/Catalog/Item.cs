@@ -15,8 +15,8 @@ public class Item : IAuditableEntity
     public int? BrandId { get; set; }
     public Brand? Brand { get; set; }
     
-    public int UnitOfMeasureId { get; set; }
-    public UnitOfMeasure UnitOfMeasure { get; set; } = null!;
+    public int? UnitOfMeasureId { get; set; }
+    public UnitOfMeasure? UnitOfMeasure { get; set; }
     
     public bool IsSerialized { get; set; }
     public bool IsConsumable { get; set; }

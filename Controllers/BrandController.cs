@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
-using Strata.Models;
 using Strata.Models.Catalog;
 using Strata.ViewModel.Brand;
 
@@ -38,12 +37,12 @@ namespace Strata.Controllers
             var pagedBrand = await PaginatedList<Brand>.CreateAsync(query, pageNumber, pageSize);
 
             ViewData["CurrentFilter"] = searchString;
-            return View(pagedBrand);
+            return View("~/Views/Catalog/Brand/Index.cshtml", pagedBrand);
         }
 
         public IActionResult Create()
         {
-            return View();
+            return View("~/Views/Catalog/Brand/Create.cshtml");
         }
 
         [HttpPost]
@@ -51,7 +50,7 @@ namespace Strata.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Catalog/Brand/Create.cshtml", model);
             }
 
             if (
@@ -62,6 +61,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "A brand with the same name already exists."
                 );
+                return View("~/Views/Catalog/Brand/Create.cshtml", model);
             }
 
             var brand = new Brand { Name = model.Name};
@@ -93,7 +93,7 @@ namespace Strata.Controllers
                 Name = brand.Name,
             };
 
-            return View(model);
+            return View("~/Views/Catalog/Brand/Edit.cshtml", model);
         }
 
         [HttpPost]
@@ -106,7 +106,7 @@ namespace Strata.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Catalog/Brand/Edit.cshtml", model);
             }
 
             if (
@@ -119,6 +119,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "Another brand with the same name already exists."
                 );
+                return View("~/Views/Catalog/Brand/Edit.cshtml", model);
             }
 
             var brand = await _context.Brands.FindAsync(id);

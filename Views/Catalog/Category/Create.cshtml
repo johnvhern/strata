@@ -24,10 +24,9 @@
                 <span asp-validation-for="Name" class="text-danger small"></span>
             </div>
             <div class="mb-3">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" asp-for="IsActive" type="checkbox" role="switch" checked />
-                    <label class="form-check-label" asp-for="IsActive">Is Active</label>
-                </div>
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Printers" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Save</button>

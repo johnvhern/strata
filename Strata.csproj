@@ -21,25 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\SoftwareLicense\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SoftwareLicense\DetailsConfirmation.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SoftwareLicense\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SoftwareLicense\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Consumable\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Consumable\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Consumable\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Device\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Device\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SparePart\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SparePart\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\SparePart\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Category\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Category\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Category\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Item\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="Views\Catalog\Brand\Create.cshtml" />
     <AdditionalFiles Include="Views\Catalog\Brand\Edit.cshtml" />
     <AdditionalFiles Include="Views\Catalog\Brand\Index.cshtml" />

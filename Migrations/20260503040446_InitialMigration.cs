@@ -94,7 +94,7 @@ namespace Strata.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UnitOfMeasure",
+                name: "UnitOfMeasures",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -111,7 +111,7 @@ namespace Strata.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnitOfMeasure", x => x.Id);
+                    table.PrimaryKey("PK_UnitOfMeasures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,7 +231,7 @@ namespace Strata.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
                     BrandId = table.Column<int>(type: "int", nullable: true),
-                    UnitOfMeasureId = table.Column<int>(type: "int", nullable: false),
+                    UnitOfMeasureId = table.Column<int>(type: "int", nullable: true),
                     IsSerialized = table.Column<bool>(type: "bit", nullable: false),
                     IsConsumable = table.Column<bool>(type: "bit", nullable: false),
                     IsSparePart = table.Column<bool>(type: "bit", nullable: false),
@@ -259,11 +259,10 @@ namespace Strata.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Items_UnitOfMeasure_UnitOfMeasureId",
+                        name: "FK_Items_UnitOfMeasures_UnitOfMeasureId",
                         column: x => x.UnitOfMeasureId,
-                        principalTable: "UnitOfMeasure",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "UnitOfMeasures",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -355,7 +354,7 @@ namespace Strata.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "UnitOfMeasure");
+                name: "UnitOfMeasures");
         }
     }
 }

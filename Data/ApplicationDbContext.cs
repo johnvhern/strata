@@ -22,6 +22,7 @@ namespace Strata.Data
         
         public DbSet<Brand>  Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
         public DbSet<Item> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,6 +31,7 @@ namespace Strata.Data
 
             builder.Entity<Category>().HasQueryFilter(x => !x.IsDeleted);
             builder.Entity<Brand>().HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<UnitOfMeasure>().HasQueryFilter(x => !x.IsDeleted);
         }
 
         public override int SaveChanges()

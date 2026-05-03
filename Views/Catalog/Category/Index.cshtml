@@ -35,6 +35,7 @@
             <thead>
                 <tr>
                     <th scope="col">Name</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Created By</th>
                     <th scope="col">Actions</th>
@@ -45,11 +46,12 @@
                 {
                     <tr>
                         <td class="align-content-center">@category.Name</td>
+                        <td class="align-content-center">@category.Description</td>
                         <td class="align-content-center">@category.CreatedAt.ToString("MM/dd/yyyy")</td>
                         <td class="align-content-center">@category.CreatedBy</td>
                         <td>
                             <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
-                            <a class="btn btn-secondary btn-sm" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
                         </td>
                     </tr>
                 }

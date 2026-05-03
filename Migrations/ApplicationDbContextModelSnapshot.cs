@@ -364,7 +364,7 @@ namespace Strata.Migrations
                     b.Property<decimal?>("StandardCost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UnitOfMeasureId")
+                    b.Property<int?>("UnitOfMeasureId")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
@@ -423,7 +423,7 @@ namespace Strata.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnitOfMeasure");
+                    b.ToTable("UnitOfMeasures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -489,9 +489,7 @@ namespace Strata.Migrations
 
                     b.HasOne("Strata.Models.Catalog.UnitOfMeasure", "UnitOfMeasure")
                         .WithMany("Items")
-                        .HasForeignKey("UnitOfMeasureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UnitOfMeasureId");
 
                     b.Navigation("Brand");
 

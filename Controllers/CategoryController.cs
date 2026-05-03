@@ -42,12 +42,12 @@ namespace Strata.Controllers
             );
 
             ViewData["CurrentFilter"] = searchString;
-            return View(pagedCategory);
+            return View("~/Views/Catalog/Category/Index.cshtml", pagedCategory);
         }
 
         public IActionResult Create()
         {
-            return View();
+            return View("~/Views/Catalog/Category/Create.cshtml");
         }
 
         [HttpPost]
@@ -55,12 +55,12 @@ namespace Strata.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Catalog/Category/Create.cshtml", model);
             }
 
             if (
                 await _context.Categories.AnyAsync(c =>
-                    c.Name.ToLower() == model.Name.ToLower().Trim()
+                    c.Name.ToLower().Trim() == model.Name.ToLower().Trim()
                 )
             )
             {
@@ -68,9 +68,10 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "A category with the same name already exists."
                 );
+                return View("~/Views/Catalog/Category/Create.cshtml", model);
             }
 
-            var category = new Category { Name = model.Name};
+            var category = new Category { Name = model.Name, Description = model.Description };
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
@@ -87,7 +88,7 @@ namespace Strata.Controllers
             }
 
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-
+    
             if (category == null)
             {
                 return NotFound();
@@ -97,9 +98,10 @@ namespace Strata.Controllers
             {
                 Id = category.Id,
                 Name = category.Name,
+                Description =  category.Description
             };
 
-            return View(model);
+            return View("~/Views/Catalog/Category/Edit.cshtml", model);
         }
 
         [HttpPost]
@@ -112,12 +114,12 @@ namespace Strata.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("~/Views/Catalog/Category/Edit.cshtml", model);
             }
 
             if (
                 await _context.Categories.AnyAsync(c =>
-                    c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
+                    c.Id != model.Id && c.Name.ToLower().Trim() == model.Name.ToLower().Trim()
                 )
             )
             {
@@ -125,6 +127,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "Another category with the same name already exists."
                 );
+                return View("~/Views/Catalog/Category/Edit.cshtml", model);
             }
 
             var category = await _context.Categories.FindAsync(id);
@@ -134,6 +137,7 @@ namespace Strata.Controllers
             }
 
             category.Name = model.Name;
+            category.Description = model.Description;
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 
