@@ -119,7 +119,7 @@ namespace Strata.Controllers
 
             if (
                 await _context.Categories.AnyAsync(c =>
-                    c.Id != model.Id && c.Name.ToLower().Trim() == model.Name.ToLower().Trim()
+                    c.Id != model.Id && c.Name.ToLower() == model.Name.ToLower().Trim()
                 )
             )
             {
