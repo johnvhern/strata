@@ -5,7 +5,7 @@ using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
 using Strata.Models.Catalog;
-using Strata.ViewModel.Category;
+using Strata.ViewModel.Catalog.Category;
 
 namespace Strata.Controllers
 {
@@ -47,7 +47,7 @@ namespace Strata.Controllers
 
         public IActionResult Create()
         {
-            return View("~/Views/Catalog/Category/Create.cshtml");
+            return PartialView("~/Views/Catalog/Category/_CreatePartial.cshtml", new CategoryCreateViewModel());
         }
 
         [HttpPost]
@@ -55,7 +55,7 @@ namespace Strata.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Catalog/Category/Create.cshtml", model);
+                return PartialView("~/Views/Catalog/Category/_CreatePartial.cshtml", model);
             }
 
             if (
@@ -68,7 +68,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "A category with the same name already exists."
                 );
-                return View("~/Views/Catalog/Category/Create.cshtml", model);
+                return PartialView("~/Views/Catalog/Category/_CreatePartial.cshtml", model);
             }
 
             var category = new Category { Name = model.Name, Description = model.Description };
@@ -76,7 +76,7 @@ namespace Strata.Controllers
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true });
         }
 
         [HttpGet]
@@ -101,7 +101,7 @@ namespace Strata.Controllers
                 Description =  category.Description
             };
 
-            return View("~/Views/Catalog/Category/Edit.cshtml", model);
+            return PartialView("~/Views/Catalog/Category/_EditPartial.cshtml", model);
         }
 
         [HttpPost]
@@ -114,7 +114,7 @@ namespace Strata.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View("~/Views/Catalog/Category/Edit.cshtml", model);
+                return PartialView("~/Views/Catalog/Category/_EditPartial.cshtml", model);
             }
 
             if (
@@ -127,7 +127,7 @@ namespace Strata.Controllers
                     nameof(model.Name),
                     "Another category with the same name already exists."
                 );
-                return View("~/Views/Catalog/Category/Edit.cshtml", model);
+                return PartialView("~/Views/Catalog/Category/_EditPartial.cshtml", model);
             }
 
             var category = await _context.Categories.FindAsync(id);
@@ -141,7 +141,7 @@ namespace Strata.Controllers
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true });
         }
     }
 }

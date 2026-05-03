@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Strata.ViewModel.Category;
+namespace Strata.ViewModel.Catalog.Category;
 
 public class CategoryEditViewModel
 {

@@ -10,10 +10,15 @@
 
 <div class="d-flex justify-content-between mb-3">
     <h3 class="fw-bold">Categories</h3>
-    <a asp-controller="Category" asp-action="Create" class="btn btn-primary d-flex align-items-center gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+    <button type="button" class="btn btn-primary d-flex align-items-center gap-1 js-category-create" data-bs-toggle="ajax-modal" data-url="@Url.Action("Create", "Category")">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-plus-icon lucide-plus">
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+        </svg>
         <span>Create</span>
-    </a>
+    </button>
 </div>
 
 <form asp-action="Index" method="get" class="row g-2 mb-3">
@@ -28,6 +33,8 @@
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
 </form>
+
+<div id="modal-placeholder"></div>
 
 <div class="card mb-3">
     <div class="card-body table-responsive">
@@ -50,7 +57,7 @@
                         <td class="align-content-center">@category.CreatedAt.ToString("MM/dd/yyyy")</td>
                         <td class="align-content-center">@category.CreatedBy</td>
                         <td>
-                            <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                            <button class="btn btn-secondary btn-sm js-category-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Category", new { id = category.Id })">Edit</button>
                             <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
                         </td>
                     </tr>
@@ -99,3 +106,49 @@
         </nav>
     }
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            AppUI.showToastFromQuery('created', 'Successfully created category!', 'success');
+            AppUI.showToastFromQuery('updated', 'Category successfully updated!', 'info');
+            AppUI.showToastFromQuery('deleted', 'Category successfully deleted!', 'warning');
+
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-category-create',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#createModal',
+                formSelector: '#categoryCreateForm',
+                saveButtonSelector: '.js-save-create-category',
+                successRedirectUrl: '@Url.Action("Index", "Category")',
+                successQueryKey: 'created',
+                errorMessage: 'Error creating category!'
+            });
+
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-category-edit',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#editModal',
+                formSelector: '#categoryEditForm',
+                saveButtonSelector: '.js-save-edit-category',
+                successRedirectUrl: '@Url.Action("Index", "Category")',
+                successQueryKey: 'updated',
+                errorMessage: 'Error updating category!'
+            });
+            
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-brand-delete',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#deleteModal',
+                formSelector: '#brandDeleteForm',
+                saveButtonSelector: '.js-save-delete-brand',
+                successRedirectUrl: '@Url.Action("Index", "Category")',
+                successQueryKey: 'deleted',
+                errorMessage: 'Error deleting category!'
+            });
+        });
+    </script>
+}

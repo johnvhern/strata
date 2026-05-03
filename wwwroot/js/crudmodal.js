@@ -42,6 +42,14 @@
         placeholder.html(html);
 
         const modalEl = document.querySelector(modalSelector);
+
+        if (!modalEl) {
+            console.error(`Modal element not found for selector: ${modalSelector}`);
+            console.error('Injected HTML:', html);
+            showToast('Modal could not be loaded.', 'error');
+            return;
+        }
+
         const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
 
         parseDynamicForm(formSelector);
