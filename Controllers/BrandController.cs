@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
 using Strata.Models.Catalog;
-using Strata.ViewModel.Brand;
+using Strata.ViewModel.Catalog.Brand;
 
 namespace Strata.Controllers
 {
@@ -133,6 +133,54 @@ namespace Strata.Controllers
 
             brand.Name = model.Name;
             _context.Brands.Update(brand);
+            await _context.SaveChangesAsync();
+
+            return Json(new
+            {
+                success = true
+            });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var brand = await _context.Brands.FindAsync(id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            var model = new BrandDeleteViewModel
+            {
+                Id = brand.Id,
+                Name = brand.Name
+            };
+            
+            return PartialView("~/Views/Catalog/Brand/_DeletePartial.cshtml", model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> Remove(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+            var brand = await _context.Brands.FindAsync(id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+            
+            _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
 
             return Json(new

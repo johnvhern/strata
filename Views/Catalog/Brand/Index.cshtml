@@ -53,7 +53,7 @@
                         <td class="align-content-center">@brand.CreatedBy</td>
                         <td>
                             <button type="button" class="btn btn-secondary btn-sm js-brand-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Brand", new { id = brand.Id })">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm js-brand-update" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Brand", new { id = brand.Id })">Delete</button>
+                            <button type="button" class="btn btn-danger btn-sm js-brand-delete" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Brand", new { id = brand.Id })">Delete</button>
                         </td>
                     </tr>
                 }
@@ -110,6 +110,7 @@
         $(function () {
             AppUI.showToastFromQuery('created', 'Successfully created brand!', 'success');
             AppUI.showToastFromQuery('updated', 'Brand successfully updated!', 'info');
+            AppUI.showToastFromQuery('deleted', 'Brand successfully deleted!', 'warning');
 
             AppUI.initAjaxModal({
                 triggerSelector: '.js-brand-create',
@@ -131,6 +132,17 @@
                 successRedirectUrl: '@Url.Action("Index", "Brand")',
                 successQueryKey: 'updated',
                 errorMessage: 'Error updating brand!'
+            });
+            
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-brand-delete',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#deleteModal',
+                formSelector: '#brandDeleteForm',
+                saveButtonSelector: '.js-save-delete-brand',
+                successRedirectUrl: '@Url.Action("Index", "Brand")',
+                successQueryKey: 'deleted',
+                errorMessage: 'Error deleting brand!'
             });
         });
     </script>

@@ -21,8 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Views\Catalog\Brand\Create.cshtml" />
-    <AdditionalFiles Include="Views\Catalog\Brand\Edit.cshtml" />
     <AdditionalFiles Include="Views\Catalog\Brand\Index.cshtml" />
     <AdditionalFiles Include="Views\Catalog\Category\Create.cshtml" />
     <AdditionalFiles Include="Views\Catalog\Category\Edit.cshtml" />

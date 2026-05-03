@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Strata.ViewModel.Brand;
+namespace Strata.ViewModel.Catalog.Brand;
 
 public class BrandEditViewModel
 {
