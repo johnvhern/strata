@@ -1,0 +1,36 @@
+﻿using Strata.Interfaces;
+
+namespace Strata.Models.Catalog;
+
+public class Item : IAuditableEntity
+{
+    public int Id { get; set; }
+    public string ItemCode { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
+    
+    public int? BrandId { get; set; }
+    public Brand? Brand { get; set; }
+    
+    public int UnitOfMeasureId { get; set; }
+    public UnitOfMeasure UnitOfMeasure { get; set; } = null!;
+    
+    public bool IsSerialized { get; set; }
+    public bool IsConsumable { get; set; }
+    public bool IsSparePart { get; set; }
+    public bool RequiresMaintenance { get; set; }
+    
+    public int MinimumStockLevel { get; set; }
+    public int ReorderLevel { get; set; }
+    
+    public decimal? StandardCost { get; set; }
+    public bool IsActive { get; set; }
+    
+    public DateTimeOffset CreatedAt { get; set; }
+    public string? CreatedBy { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+    public string? UpdatedBy { get; set; }
+}

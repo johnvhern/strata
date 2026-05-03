@@ -47,62 +47,44 @@
                     </a>
 
                     <div class="sidebar-group">
-                        <div class="sidebar-group-label">Inventory</div>
+                        <div class="sidebar-group-label">Catalog</div>
+                        <a class="sidebar-sublink @(currentController == "Item" ? "active" : string.Empty)"
+                           asp-area="" asp-controller="Item" asp-action="Index">Items</a>
                         <a class="sidebar-sublink @(currentController == "Category" ? "active" : string.Empty)"
                            asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
                         <a class="sidebar-sublink @(currentController == "Brand" ? "active" : string.Empty)" asp-area=""
                            asp-controller="Brand" asp-action="Index">Brands</a>
-                        <a class="sidebar-sublink @(currentController == "Consumable" ? "active" : string.Empty)"
-                           asp-area="" asp-controller="Consumable" asp-action="Index">Consumables</a>
-                        <a class="sidebar-sublink @(currentController == "SparePart" ? "active" : string.Empty)"
-                           asp-area="" asp-controller="SparePart" asp-action="Index">Spare Parts</a>
-                        <a class="sidebar-sublink @(currentController == "SoftwareLicense" ? "active" : string.Empty)"
-                           asp-area="" asp-controller="SoftwareLicense" asp-action="Index">Software Licenses</a>
+                        <a class="sidebar-sublink @(currentController == "Unit" ? "active" : string.Empty)" asp-area=""
+                           asp-controller="Unit" asp-action="Index">Units</a>
                     </div>
 
                     <div class="sidebar-group">
                         <div class="sidebar-group-label">Assets</div>
-                        <a class="sidebar-sublink @(currentController == "Device" ? "active" : string.Empty)"
-                           asp-area="" asp-controller="Device" asp-action="Index">Devices</a>
-                        <span class="sidebar-sublink disabled">Asset Tags</span>
-                        <span class="sidebar-sublink disabled">Assigned Equipment</span>
-                        <span class="sidebar-sublink disabled">Department Allocation</span>
-                        <span class="sidebar-sublink disabled">Room Locations</span>
+                        <span class="sidebar-sublink disabled">Asset List</span>
+                        <span class="sidebar-sublink disabled">Locations</span>
+                        <span class="sidebar-sublink disabled">Departments</span>
                     </div>
 
                     <div class="sidebar-group">
-                        <div class="sidebar-group-label">Stock Movements</div>
+                        <div class="sidebar-group-label">Stock</div>
+                        <span class="sidebar-sublink disabled">On-Hand</span>
+                        <span class="sidebar-sublink disabled">Movements</span>
                         <span class="sidebar-sublink disabled">Stock In</span>
                         <span class="sidebar-sublink disabled">Stock Out</span>
-                        <span class="sidebar-sublink disabled">Transfers</span>
                         <span class="sidebar-sublink disabled">Adjustments</span>
-                        <span class="sidebar-sublink disabled">Disposal</span>
-                    </div>
-
-                    <div class="sidebar-group">
-                        <div class="sidebar-group-label">Procurement</div>
-                        <span class="sidebar-sublink disabled">Requests</span>
-                        <span class="sidebar-sublink disabled">Purchase Orders</span>
-                        <span class="sidebar-sublink disabled">Deliveries</span>
-                        <span class="sidebar-sublink disabled">Receiving Logs</span>
-                        <span class="sidebar-sublink disabled">Vendors</span>
                     </div>
 
                     <div class="sidebar-group">
                         <div class="sidebar-group-label">Maintenance</div>
-                        <span class="sidebar-sublink disabled">Preventive Maintenance</span>
-                        <span class="sidebar-sublink disabled">Repairs</span>
-                        <span class="sidebar-sublink disabled">Warranty Tracking</span>
+                        <span class="sidebar-sublink disabled">Work Orders</span>
                         <span class="sidebar-sublink disabled">Service History</span>
                     </div>
 
                     <div class="sidebar-group">
-                        <div class="sidebar-group-label">Reports</div>
-                        <span class="sidebar-sublink disabled">Low Stock</span>
-                        <span class="sidebar-sublink disabled">Expiring Items</span>
-                        <span class="sidebar-sublink disabled">Utilization Reports</span>
-                        <span class="sidebar-sublink disabled">Audit Trail</span>
-                        <span class="sidebar-sublink disabled">Inventory Summary</span>
+                        <div class="sidebar-group-label">Administration</div>
+                        <span class="sidebar-sublink disabled">Users</span>
+                        <span class="sidebar-sublink disabled">Roles</span>
+                        <span class="sidebar-sublink disabled">Suppliers</span>
                     </div>
                 </nav>
 

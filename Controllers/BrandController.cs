@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
 using Strata.Models;
+using Strata.Models.Catalog;
 using Strata.ViewModel.Brand;
 
 namespace Strata.Controllers
@@ -20,7 +21,6 @@ namespace Strata.Controllers
 
         public async Task<IActionResult> Index(
             string searchString,
-            bool? isActive,
             int pageNumber = 1
         )
         {
@@ -33,17 +33,11 @@ namespace Strata.Controllers
                 query = query.Where(c => c.Name.Contains(searchString));
             }
 
-            if (isActive.HasValue)
-            {
-                query = query.Where(c => c.IsActive == isActive.Value);
-            }
-
             query = query.OrderBy(c => c.Name).ThenBy(c => c.Id);
 
             var pagedBrand = await PaginatedList<Brand>.CreateAsync(query, pageNumber, pageSize);
 
             ViewData["CurrentFilter"] = searchString;
-            ViewData["CurrentStatus"] = isActive;
             return View(pagedBrand);
         }
 
@@ -70,7 +64,7 @@ namespace Strata.Controllers
                 );
             }
 
-            var brand = new Brand { Name = model.Name, IsActive = model.IsActive };
+            var brand = new Brand { Name = model.Name};
 
             _context.Brands.Add(brand);
             await _context.SaveChangesAsync();
@@ -97,7 +91,6 @@ namespace Strata.Controllers
             {
                 Id = brand.Id,
                 Name = brand.Name,
-                IsActive = brand.IsActive,
             };
 
             return View(model);
@@ -135,7 +128,6 @@ namespace Strata.Controllers
             }
 
             brand.Name = model.Name;
-            brand.IsActive = model.IsActive;
             _context.Brands.Update(brand);
             await _context.SaveChangesAsync();
 

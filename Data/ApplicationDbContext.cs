@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Strata.Interfaces;
 using Strata.Models;
+using Strata.Models.Catalog;
 using Strata.Services;
 
 namespace Strata.Data
@@ -18,13 +19,18 @@ namespace Strata.Data
         {
             _currentUserService = currentUserService;
         }
-
+        
+        public DbSet<Brand>  Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<Consumable> Consumables { get; set; }
-        public DbSet<SparePart> SpareParts { get; set; }
-        public DbSet<SoftwareLicense> SoftwareLicenses { get; set; }
-        public DbSet<Device> Devices { get; set; }
+        public DbSet<Item> Items { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Category>().HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Brand>().HasQueryFilter(x => !x.IsDeleted);
+        }
 
         public override int SaveChanges()
         {
@@ -59,6 +65,24 @@ namespace Strata.Data
                 {
                     entry.Property(x => x.CreatedAt).IsModified = false;
                     entry.Property(x => x.CreatedBy).IsModified = false;
+                }
+            }
+            
+            var softDeleteEntries = ChangeTracker
+                .Entries<ISoftDeletable>()
+                .Where(e => e.State == EntityState.Deleted);
+
+            foreach (var entry in softDeleteEntries)
+            {
+                entry.State = EntityState.Modified;
+                entry.Entity.IsDeleted = true;
+                entry.Entity.DeletedAt = timestamp;
+                entry.Entity.DeletedBy = username;
+
+                if (entry.Entity is IAuditableEntity auditableEntity)
+                {
+                    auditableEntity.UpdatedAt = timestamp;
+                    auditableEntity.UpdatedBy = username;
                 }
             }
 
