@@ -40,7 +40,7 @@ public class UnitController : Controller
 
     public async Task<IActionResult> Create()
     {
-        return View("~/Views/Catalog/Unit/Create.cshtml");
+        return PartialView("~/Views/Catalog/Unit/_CreatePartial.cshtml");
     }
 
     [HttpPost]
@@ -48,14 +48,14 @@ public class UnitController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View("~/Views/Catalog/Unit/Create.cshtml");
+            return PartialView("~/Views/Catalog/Unit/_CreatePartial.cshtml");
         }
 
         if (await _context.UnitOfMeasures.AnyAsync(u => u.Name.ToLower() == model.Name.ToLower().Trim()))
         {
             ModelState.AddModelError(nameof(model.Name), "A unit with the same name already exists.");
             
-            return View("~/Views/Catalog/Unit/Create.cshtml");
+            return PartialView("~/Views/Catalog/Unit/_CreatePartial.cshtml");
         }
 
         var unit = new UnitOfMeasure
@@ -67,7 +67,7 @@ public class UnitController : Controller
         _context.UnitOfMeasures.Add(unit);
         await _context.SaveChangesAsync();
         
-        return RedirectToAction(nameof(Index));
+        return Json(new { success = true });
     }
 
     [HttpGet]
@@ -91,7 +91,7 @@ public class UnitController : Controller
             Abbreviation =  unit.Abbreviation
         };
         
-        return View("~/Views/Catalog/Unit/Edit.cshtml", model);
+        return PartialView("~/Views/Catalog/Unit/_EditPartial.cshtml", model);
     }
 
     [HttpPost]
@@ -104,14 +104,14 @@ public class UnitController : Controller
 
         if (!ModelState.IsValid)
         {
-            return View("~/Views/Catalog/Unit/Edit.cshtml");
+            return PartialView("~/Views/Catalog/Unit/_EditPartial.cshtml");
         }
 
         if (await _context.UnitOfMeasures.AnyAsync(u => u.Id != model.Id && u.Name.ToLower() == model.Name.ToLower().Trim()))
         {
             ModelState.AddModelError(nameof(model.Name), "Another unit with the same name already exists.");
             
-            return View("~/Views/Catalog/Unit/Edit.cshtml", model);
+            return PartialView("~/Views/Catalog/Unit/_EditPartial.cshtml", model);
         }
 
         var unit = await _context.UnitOfMeasures.FindAsync(id);
@@ -126,6 +126,52 @@ public class UnitController : Controller
         
         _context.UnitOfMeasures.Update(unit);
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        
+        return Json(new { success = true });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var unit = await _context.UnitOfMeasures.FindAsync(id);
+
+        if (unit == null)
+        {
+            return NotFound();
+        }
+
+        var model = new UnitDeleteViewModel
+        {
+            Id = unit.Id,
+            Name = unit.Name,
+        };
+        
+        return PartialView("~/Views/Catalog/Unit/_DeletePartial.cshtml", model);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public async Task<IActionResult> Remove(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var unit = await _context.UnitOfMeasures.FindAsync(id);
+
+        if (unit == null)
+        {
+            return NotFound();
+        }
+        
+        _context.UnitOfMeasures.Remove(unit);
+        await _context.SaveChangesAsync();
+        
+        return Json(new { success = true });
     }
 }

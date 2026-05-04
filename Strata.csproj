@@ -20,11 +20,4 @@
     <PackageReference Include="NuGet.Protocol" Version="7.3.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="Views\Catalog\Brand\Index.cshtml" />
-    <AdditionalFiles Include="Views\Catalog\Category\Create.cshtml" />
-    <AdditionalFiles Include="Views\Catalog\Category\Edit.cshtml" />
-    <AdditionalFiles Include="Views\Catalog\Category\Index.cshtml" />
-  </ItemGroup>
-
 </Project>

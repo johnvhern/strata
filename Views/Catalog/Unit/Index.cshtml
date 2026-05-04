@@ -10,7 +10,7 @@
 
 <div class="d-flex justify-content-between mb-3">
     <h3 class="fw-bold">Units</h3>
-    <a asp-controller="Unit" asp-action="Create" class="btn btn-primary d-flex align-items-center gap-1">
+    <button type="button" class="btn btn-primary d-flex align-items-center gap-1 js-unit-create" data-bs-toggle="ajax-modal" data-url="@Url.Action("Create", "Unit")">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
              class="lucide lucide-plus-icon lucide-plus">
@@ -18,7 +18,7 @@
             <path d="M12 5v14" />
         </svg>
         <span>Create</span>
-    </a>
+    </button>
 </div>
 
 <form asp-action="Index" method="get" class="row g-2 mb-3">
@@ -30,6 +30,8 @@
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
 </form>
+
+<div id="modal-placeholder"></div>
 
 <div class="card mb-3">
     <div class="card-body table-responsive">
@@ -52,8 +54,8 @@
                         <td class="align-content-center">@unit.CreatedAt.ToString("MM/dd/yyyy")</td>
                         <td class="align-content-center">@unit.CreatedBy</td>
                         <td>
-                            <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@unit.Id">Edit</a>
-                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@unit.Id">Delete</a>
+                            <button class="btn btn-secondary btn-sm js-unit-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Unit", new { id = unit.Id })">Edit</button>
+                            <button class="btn btn-danger btn-sm js-unit-delete" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Unit", new { id = unit.Id })">Delete</button>
                         </td>
                     </tr>
                 }
@@ -101,3 +103,49 @@
         </nav>
     }
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            AppUI.showToastFromQuery('created', 'Successfully created unit!', 'success');
+            AppUI.showToastFromQuery('updated', 'Unit successfully updated!', 'info');
+            AppUI.showToastFromQuery('deleted', 'Unit successfully deleted!', 'warning');
+
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-unit-create',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#createModal',
+                formSelector: '#unitCreateForm',
+                saveButtonSelector: '.js-save-create-unit',
+                successRedirectUrl: '@Url.Action("Index", "Unit")',
+                successQueryKey: 'created',
+                errorMessage: 'Error creating unit!'
+            });
+
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-unit-edit',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#editModal',
+                formSelector: '#unitEditForm',
+                saveButtonSelector: '.js-save-edit-unit',
+                successRedirectUrl: '@Url.Action("Index", "Unit")',
+                successQueryKey: 'updated',
+                errorMessage: 'Error updating unit!'
+            });
+            
+            AppUI.initAjaxModal({
+                triggerSelector: '.js-unit-delete',
+                placeholderSelector: '#modal-placeholder',
+                modalSelector: '#deleteModal',
+                formSelector: '#unitDeleteForm',
+                saveButtonSelector: '.js-save-delete-unit',
+                successRedirectUrl: '@Url.Action("Index", "Unit")',
+                successQueryKey: 'deleted',
+                errorMessage: 'Error deleting unit!'
+            });
+        });
+    </script>
+}

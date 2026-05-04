@@ -1,30 +1,30 @@
-﻿@model Strata.ViewModel.Catalog.Category.CategoryCreateViewModel
+﻿@model Strata.ViewModel.Catalog.UnitOfMeasure.UnitCreateViewModal
 
 <!-- Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Category</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Unit</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Category" asp-action="Create" method="post" id="categoryCreateForm">
+                <form asp-controller="Unit" asp-action="Create" method="post" id="unitCreateForm">
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label">Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Printer" />
+                        <input asp-for="Name" class="form-control" placeholder="Pieces" />
                         <span asp-validation-for="Name" class="text-danger small"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Description" class="form-label">Description</label>
-                        <textarea asp-for="Description" class="form-control" placeholder="Printers" rows="3"></textarea>
-                        <span asp-validation-for="Description" class="text-danger small"></span>
+                        <label asp-for="Abbreviation" class="form-label">Abbreviation</label>
+                        <input asp-for="Abbreviation" class="form-control" placeholder="pcs" />
+                        <span asp-validation-for="Abbreviation" class="text-danger small"></span>
                     </div>
                     <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()"/>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary js-save-create-category">Save</button>
+                <button type="button" class="btn btn-primary js-save-create-unit">Save</button>
             </div>
         </div>
     </div>

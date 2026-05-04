@@ -58,7 +58,7 @@
                         <td class="align-content-center">@category.CreatedBy</td>
                         <td>
                             <button class="btn btn-secondary btn-sm js-category-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Category", new { id = category.Id })">Edit</button>
-                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@category.Id">Delete</a>
+                            <button class="btn btn-danger btn-sm js-category-delete" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Category", new { id = category.Id })">Delete</button>
                         </td>
                     </tr>
                 }
@@ -140,11 +140,11 @@
             });
             
             AppUI.initAjaxModal({
-                triggerSelector: '.js-brand-delete',
+                triggerSelector: '.js-category-delete',
                 placeholderSelector: '#modal-placeholder',
                 modalSelector: '#deleteModal',
-                formSelector: '#brandDeleteForm',
-                saveButtonSelector: '.js-save-delete-brand',
+                formSelector: '#categoryDeleteForm',
+                saveButtonSelector: '.js-save-delete-category',
                 successRedirectUrl: '@Url.Action("Index", "Category")',
                 successQueryKey: 'deleted',
                 errorMessage: 'Error deleting category!'

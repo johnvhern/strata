@@ -143,5 +143,50 @@ namespace Strata.Controllers
 
             return Json(new { success = true });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            var model = new CategoryDeleteViewModel()
+            {
+                Id = category.Id,
+                Name = category.Name,
+            };
+            
+            return PartialView("~/Views/Catalog/Category/_DeletePartial.cshtml", model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> Remove(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            
+            return Json(new { success = true });
+        }
     }
 }
