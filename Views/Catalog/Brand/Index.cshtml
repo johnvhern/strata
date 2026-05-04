@@ -35,11 +35,25 @@
 
 <div class="card mb-3">
     <div class="card-body table-responsive-sm">
-        <table class="table table-hover table-sm">
+        <table class="table table-hover table-sm align-middle">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Created At</th>
+                    <th scope="col">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["NameSort"]"
+                           asp-route-searchString="@ViewData["CurrentFilter"]"
+                           class="nav-link">
+                            Name
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CreatedSort"]"
+                           asp-route-searchString="@ViewData["CurrentFilter"]"
+                           class="nav-link">
+                            Created At
+                        </a>
+                    </th>
                     <th scope="col">Created By</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -48,9 +62,9 @@
                 @foreach (var brand in Model)
                 {
                     <tr>
-                        <td class="align-content-center">@brand.Name</td>
-                        <td class="align-content-center">@brand.CreatedAt.ToString("MM/dd/yyyy")</td>
-                        <td class="align-content-center">@brand.CreatedBy</td>
+                        <td>@brand.Name</td>
+                        <td>@brand.CreatedAt.ToString("MM/dd/yyyy")</td>
+                        <td>@brand.CreatedBy</td>
                         <td>
                             <button type="button" class="btn btn-secondary btn-sm js-brand-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Brand", new { id = brand.Id })">Edit</button>
                             <button type="button" class="btn btn-danger btn-sm js-brand-delete" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Brand", new { id = brand.Id })">Delete</button>

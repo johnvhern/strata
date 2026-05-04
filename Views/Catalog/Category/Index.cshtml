@@ -38,7 +38,7 @@
 
 <div class="card mb-3">
     <div class="card-body table-responsive-sm">
-        <table class="table table-hover table-sm">
+        <table class="table table-hover table-sm align-middle">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
@@ -52,10 +52,10 @@
                 @foreach (var category in Model)
                 {
                     <tr>
-                        <td class="align-content-center">@category.Name</td>
-                        <td class="align-content-center">@category.Description</td>
-                        <td class="align-content-center">@category.CreatedAt.ToString("MM/dd/yyyy")</td>
-                        <td class="align-content-center">@category.CreatedBy</td>
+                        <td>@category.Name</td>
+                        <td>@category.Description</td>
+                        <td>@category.CreatedAt.ToString("MM/dd/yyyy")</td>
+                        <td>@category.CreatedBy</td>
                         <td>
                             <button class="btn btn-secondary btn-sm js-category-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Category", new { id = category.Id })">Edit</button>
                             <button class="btn btn-danger btn-sm js-category-delete" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Category", new { id = category.Id })">Delete</button>

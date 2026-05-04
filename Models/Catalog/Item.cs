@@ -5,7 +5,7 @@ namespace Strata.Models.Catalog;
 public class Item : IAuditableEntity
 {
     public int Id { get; set; }
-    public string ItemCode { get; set; } = string.Empty;
+    public string? ItemCode { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     

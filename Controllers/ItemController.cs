@@ -92,16 +92,6 @@ public class ItemController : Controller
         if (await _context.Items.AnyAsync(i => i.Name.ToLower() == model.Name.ToLower().Trim()))
         {
             ModelState.AddModelError(nameof(model.Name), "An item with the same name already exists.");
-            
-            model.BrandsOptions = await _context.Brands.Where(b => !b.IsDeleted).OrderBy(b => b.Name)
-                .Select(b => new SelectListItem { Value = b.Id.ToString(), Text = b.Name }).ToListAsync();
-
-            model.CategoryOptions = await _context.Categories.Where(c => !c.IsDeleted).OrderBy(c => c.Name)
-                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToListAsync();
-
-            model.UnitOptions = await _context.UnitOfMeasures.Where(u => !u.IsDeleted).OrderBy(u => u.Name)
-                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = u.Name }).ToListAsync();
-            
             return PartialView("~/Views/Catalog/Item/_CreatePartial.cshtml", model);
         }
 

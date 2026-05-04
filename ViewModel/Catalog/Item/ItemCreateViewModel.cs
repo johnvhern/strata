@@ -5,7 +5,7 @@ namespace Strata.ViewModel.Catalog.Item;
 
 public class ItemCreateViewModel : IValidatableObject
 {
-    public string ItemCode { get; set; } = string.Empty;
+    public string? ItemCode { get; set; }
 
     [Required(ErrorMessage = "Item name is required")]
     [StringLength(100, ErrorMessage = "Name must not exceed 100 characters")]

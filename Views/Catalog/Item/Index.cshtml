@@ -43,7 +43,7 @@
 
 <div class="card mb-3">
     <div class="card-body table-responsive-sm">
-        <table class="table table-hover table-sm">
+        <table class="table table-hover table-sm align-middle">
             <thead>
             <tr>
                 <th scope="col">Code</th>
@@ -62,15 +62,15 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="align-content-center">@item.ItemCode</td>
-                    <td class="align-content-center">@item.Name</td>
-                    <td class="align-content-center">@item.Brand?.Name</td>
-                    <td class="align-content-center">@item.Category?.Name</td>
-                    <td class="align-content-center">@item.UnitOfMeasure?.Name</td>
-                    <td class="align-content-center">@item.MinimumStockLevel</td>   
-                    <td class="align-content-center">@item.ReorderLevel</td>
-                    <td class="align-content-center">@string.Format("{0:C}", item.StandardCost)</td>
-                    <td class="align-content-center">
+                    <td>@item.ItemCode</td>
+                    <td>@item.Name</td>
+                    <td>@item.Brand?.Name</td>
+                    <td>@item.Category?.Name</td>
+                    <td>@item.UnitOfMeasure?.Name</td>
+                    <td>@item.MinimumStockLevel</td>   
+                    <td>@item.ReorderLevel</td>
+                    <td>@string.Format("{0:C}", item.StandardCost)</td>
+                    <td>
                         <span class="badge rounded-pill @(item.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary bg-opacity-10 text-secondary")">
                             @(item.IsActive ? "Active" : "Inactive")
                         </span>

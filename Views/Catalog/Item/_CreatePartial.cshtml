@@ -10,17 +10,15 @@
             </div>
             <div class="modal-body">
                 <form asp-controller="Item" asp-action="Create" method="post" id="itemCreateForm" class="js-item-flags-form">
-                    <div class="d-block d-lg-flex gap-lg-2">
-                        <div class="mb-3">
-                            <label asp-for="Name" class="form-label">Name</label>
-                            <input asp-for="Name" class="form-control" placeholder="Lenovo Legion" />
-                            <span asp-validation-for="Name" class="text-danger small"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="ItemCode" class="form-label">Item Code</label>
-                            <input asp-for="ItemCode" class="form-control" placeholder="LT001" />
-                            <span asp-validation-for="ItemCode" class="text-danger small"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="ItemCode" class="form-label">Item Code</label>
+                        <input asp-for="ItemCode" class="form-control" placeholder="LT001"/>
+                        <span asp-validation-for="ItemCode" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Lenovo Legion"/>
+                        <span asp-validation-for="Name" class="text-danger small"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Description" class="form-label">Description</label>
@@ -82,12 +80,12 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="MinimumStockLevel" class="form-label">Min. Stock Level</label>
-                        <input type="number" asp-for="MinimumStockLevel" class="form-control" />
+                        <input type="number" asp-for="MinimumStockLevel" class="form-control"/>
                         <span asp-validation-for="MinimumStockLevel" class="text-danger small"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="ReorderLevel" class="form-label">Reorder Level</label>
-                        <input type="number" asp-for="ReorderLevel" class="form-control" />
+                        <input type="number" asp-for="ReorderLevel" class="form-control"/>
                         <span asp-validation-for="ReorderLevel" class="text-danger small"></span>
                     </div>
                     <div class="mb-3">

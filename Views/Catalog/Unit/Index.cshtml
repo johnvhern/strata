@@ -35,7 +35,7 @@
 
 <div class="card mb-3">
     <div class="card-body table-responsive-sm">
-        <table class="table table-hover table-sm">
+        <table class="table table-hover table-sm align-middle">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
@@ -49,10 +49,10 @@
                 @foreach (var unit in Model)
                 {
                     <tr>
-                        <td class="align-content-center">@unit.Name</td>
-                        <td class="align-content-center">@unit.Abbreviation</td>
-                        <td class="align-content-center">@unit.CreatedAt.ToString("MM/dd/yyyy")</td>
-                        <td class="align-content-center">@unit.CreatedBy</td>
+                        <td>@unit.Name</td>
+                        <td>@unit.Abbreviation</td>
+                        <td>@unit.CreatedAt.ToString("MM/dd/yyyy")</td>
+                        <td>@unit.CreatedBy</td>
                         <td>
                             <button class="btn btn-secondary btn-sm js-unit-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Unit", new { id = unit.Id })">Edit</button>
                             <button class="btn btn-danger btn-sm js-unit-delete" data-bs-toggle="ajax-modal" data-url="@Url.Action("Delete", "Unit", new { id = unit.Id })">Delete</button>
