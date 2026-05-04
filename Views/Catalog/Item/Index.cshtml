@@ -1,6 +1,10 @@
-﻿@model Strata.Models.Catalog.Item
+﻿@model Strata.Helpers.PaginatedList<Strata.Models.Catalog.Item>
 @{
     ViewData["Title"] = "Items";
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var startItem = ((Model.PageIndex - 1) * Model.PageSize) + 1;
+    var endItem = startItem + Model.Count - 1;
 }
 
 <div class="d-flex justify-content-between mb-3">
@@ -16,7 +20,114 @@
     </button>
 </div>
 
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-12 col-md-3">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control"
+               placeholder="Search devices" />
+    </div>
+
+    <div class="col-12 col-md-2">
+        <select name="isActive" class="form-select">
+            <option value="">All</option>
+            <option value="true" selected="@(ViewData["CurrentStatus"]?.ToString() == "True")">Active</option>
+            <option value="false" selected="@(ViewData["CurrentStatus"]?.ToString() == "False")">Inactive</option>
+        </select>
+    </div>
+
+    <div class="col-12 col-md-1 d-grid">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
 <div id="modal-placeholder"></div>
+
+<div class="card mb-3">
+    <div class="card-body table-responsive-sm">
+        <table class="table table-hover table-sm">
+            <thead>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Category</th>
+                <th scope="col">UOM</th>
+                <th scope="col">Min. Stock Level</th>
+                <th scope="col">Reorder Level</th>
+                <th scope="col">Standard Cost</th>
+                <th scope="col">Active</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-content-center">@item.ItemCode</td>
+                    <td class="align-content-center">@item.Name</td>
+                    <td class="align-content-center">@item.Brand?.Name</td>
+                    <td class="align-content-center">@item.Category?.Name</td>
+                    <td class="align-content-center">@item.UnitOfMeasure?.Name</td>
+                    <td class="align-content-center">@item.MinimumStockLevel</td>   
+                    <td class="align-content-center">@item.ReorderLevel</td>
+                    <td class="align-content-center">@string.Format("{0:C}", item.StandardCost)</td>
+                    <td class="align-content-center">
+                        <span class="badge rounded-pill @(item.IsActive ? "bg-success bg-opacity-10 text-success" : "bg-secondary bg-opacity-10 text-secondary")">
+                            @(item.IsActive ? "Active" : "Inactive")
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm js-category-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("View", "Item", new { id = item.Id })">View</button>
+                        <button class="btn btn-secondary btn-sm js-category-edit" data-bs-toggle="ajax-modal" data-url="@Url.Action("Edit", "Item", new { id = item.Id })">Edit</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="align-items-center justify-content-between d-sm-block d-lg-flex">
+    @if (Model.TotalCount == 0)
+    {
+        <p class="text-muted mb-2 small">
+            Showing 0 entries
+        </p>
+    }
+    else
+    {
+        <p class="text-muted mb-2 small">
+            Showing @startItem to @endItem of @Model.TotalCount entries
+        </p>
+    }
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Items pagination">
+            <ul class="pagination pagination-sm justify-content-center">
+                <li class="page-item @prevDisabled">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-statusFilter="@ViewData["CurrentStatus"]">Previous</a>
+                </li>
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i"
+                           asp-route-searchString="@ViewData["CurrentFilter"]"
+                           asp-route-statusFilter="@ViewData["CurrentStatus"]">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @nextDisabled">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       asp-route-searchString="@ViewData["CurrentFilter"]"
+                       asp-route-statusFilter="@ViewData["CurrentStatus"]">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
 
 @section Scripts
 {
@@ -49,6 +160,50 @@
                 errorMessage: 'Error updating item!'
             });
             
+        });
+
+        function updateFlags(form) {
+            const isSerialized = form.querySelector('[name="IsSerialized"][type="checkbox"]');
+            const isConsumable = form.querySelector('[name="IsConsumable"][type="checkbox"]');
+            const isSparePart = form.querySelector('[name="IsSparePart"][type="checkbox"]');
+            const requiresMaintenance = form.querySelector('[name="RequiresMaintenance"][type="checkbox"]');
+
+            if (!isSerialized || !isConsumable || !isSparePart || !requiresMaintenance) return;
+
+            if (isConsumable.checked) {
+                isSerialized.checked = false;
+                isSparePart.checked = false;
+                requiresMaintenance.checked = false;
+
+                isSerialized.disabled = true;
+                isSparePart.disabled = true;
+                requiresMaintenance.disabled = true;
+            } else {
+                isSerialized.disabled = false;
+                isSparePart.disabled = false;
+                requiresMaintenance.disabled = false;
+            }
+
+            if (isSerialized.checked) {
+                isConsumable.checked = false;
+                isConsumable.disabled = true;
+            } else if (!isConsumable.checked) {
+                isConsumable.disabled = false;
+            }
+        }
+
+        $(document).on('change', '.js-item-flags-form input[type="checkbox"]', function () {
+            const form = this.closest('.js-item-flags-form');
+            if (form) {
+                updateFlags(form);
+            }
+        });
+
+        $(document).on('shown.bs.modal', '#createModal, #editModal', function () {
+            const form = this.querySelector('.js-item-flags-form');
+            if (form) {
+                updateFlags(form);
+            }
         });
     </script>
 }

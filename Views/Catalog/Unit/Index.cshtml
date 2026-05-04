@@ -22,7 +22,7 @@
 </div>
 
 <form asp-action="Index" method="get" class="row g-2 mb-3">
-    <div class="col-12 col-md-5">
+    <div class="col-12 col-md-3">
         <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control"
                placeholder="Search unit" />
     </div>
@@ -34,8 +34,8 @@
 <div id="modal-placeholder"></div>
 
 <div class="card mb-3">
-    <div class="card-body table-responsive">
-        <table class="table table-hover">
+    <div class="card-body table-responsive-sm">
+        <table class="table table-hover table-sm">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
