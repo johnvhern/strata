@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Strata.Data;
 using Strata.Helpers;
-using Strata.Models;
 using Strata.Models.Catalog;
 using Strata.ViewModel.Catalog.Category;
 

@@ -132,4 +132,93 @@ public class ItemController : Controller
         
         return Json(new { success = true });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+        
+        var item = await _context.Items.FirstOrDefaultAsync(i => i.Id == id);
+
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        var model = new ItemEditViewModel
+        {
+            BrandsOptions = await _context.Brands.Where(b => !b.IsDeleted).OrderBy(b => b.Name).Select(b => new SelectListItem { Value = b.Id.ToString(), Text = b.Name }).ToListAsync(),
+                
+            CategoryOptions = await _context.Categories.Where(c => !c.IsDeleted).OrderBy(c => c.Name).Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToListAsync(),
+            
+            UnitOptions = await _context.UnitOfMeasures.Where(u => !u.IsDeleted).OrderBy(u => u.Name).Select(u => new SelectListItem { Value = u.Id.ToString(), Text = u.Name }).ToListAsync(),
+            
+            ItemCode =  item.ItemCode,
+            Name = item.Name,
+            Description = item.Description,
+            BrandId = item.BrandId,
+            CategoryId = item.CategoryId,
+            UnitOfMeasureId = item.UnitOfMeasureId,
+            IsSerialized = item.IsSerialized,
+            IsConsumable = item.IsConsumable,
+            IsSparePart = item.IsSparePart,
+            RequiresMaintenance = item.RequiresMaintenance,
+            MinimumStockLevel = item.MinimumStockLevel,
+            ReorderLevel = item.ReorderLevel,
+            StandardCost = item.StandardCost,
+            IsActive =  item.IsActive,
+        };
+
+        return PartialView("~/Views/Catalog/Item/_EditPartial.cshtml", model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id, ItemEditViewModel model)
+    {
+        if (id != model.Id)
+        {
+            return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return PartialView("~/Views/Catalog/Item/_EditPartial.cshtml", model);
+        }
+
+        if (await _context.Items.AnyAsync(i => i.Id != model.Id && i.Name.ToLower() == model.Name.ToLower().Trim()))
+        {
+            ModelState.AddModelError(nameof(model.Name), "An item with the same name already exists.");
+            return PartialView("~/Views/Catalog/Item/_EditPartial.cshtml", model);
+        }
+
+        var item = await _context.Items.FindAsync(id);
+
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        item.ItemCode = model.ItemCode;
+        item.Name = model.Name;
+        item.Description = model.Description;
+        item.BrandId = model.BrandId;
+        item.CategoryId = model.CategoryId;
+        item.UnitOfMeasureId = model.UnitOfMeasureId;
+        item.IsSerialized = model.IsSerialized;
+        item.IsConsumable = model.IsConsumable;
+        item.IsSparePart = model.IsSparePart;
+        item.RequiresMaintenance = model.RequiresMaintenance;
+        item.MinimumStockLevel = model.MinimumStockLevel;
+        item.ReorderLevel = model.ReorderLevel;
+        item.StandardCost = model.StandardCost;
+        item.IsActive = model.IsActive;
+
+        _context.Items.Update(item);
+        await _context.SaveChangesAsync();
+        
+        return Json(new { success = true });
+    }
 }
