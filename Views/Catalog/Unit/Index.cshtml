@@ -6,6 +6,16 @@
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     var startItem = ((Model.PageIndex - 1) * Model.PageSize) + 1;
     var endItem = startItem + Model.Count - 1;
+    
+    var currentSort = ViewData["CurrentSort"]?.ToString();
+
+    string SortIcon(string ascValue, string descValue, bool isDefaultAsc = false)
+    {
+        if (isDefaultAsc && string.IsNullOrEmpty(currentSort)) return "▲";
+        if (currentSort == ascValue) return "▲";
+        if (currentSort == descValue) return "▼";
+        return "";
+    }
 }
 
 <div class="d-flex justify-content-between mb-3">
@@ -38,9 +48,27 @@
         <table class="table table-hover table-sm align-middle">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
+                    <th scope="col">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["NameSort"]"
+                           asp-route-searchString="@ViewData["CurrentFilter"]"
+                           asp-route-pageNumber="@Model.PageIndex"
+                           class="nav-link">
+                            <span>Name</span>
+                            <span class="sort-icon ms-1">@SortIcon("", "name_desc", true)</span>
+                        </a>
+                    </th>
                     <th scope="col">Abbreviation</th>
-                    <th scope="col">Created At</th>
+                    <th scope="col">
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CreatedSort"]"
+                           asp-route-searchString="@ViewData["CurrentFilter"]"
+                           asp-route-pageNumber="@Model.PageIndex"
+                           class="nav-link">
+                            <span>Created At</span>
+                            <span class="sort-icon ms-1">@SortIcon("CreatedAt", "created_desc", false)</span>
+                        </a>
+                    </th>
                     <th scope="col">Created By</th>
                     <th scope="col">Actions</th>
                 </tr>

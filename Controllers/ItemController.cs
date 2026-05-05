@@ -22,10 +22,16 @@ public class ItemController : Controller
     public async Task<IActionResult> Index(
         string searchString,
         bool? isActive,
+        string sortOrder,
         int pageNumber = 1
     )
     {
         int pageSize = 25;
+        
+        ViewData["CurrentSort"] = sortOrder;
+        ViewData["NameSort"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        ViewData["ItemSort"] = sortOrder == "ItemCode" ? "item_desc" : "ItemCode";
+        ViewData["CostSort"] = sortOrder == "StandardCost" ? "cost_desc" : "StandardCost";
 
         var query = _context
             .Items.AsNoTracking()
@@ -44,7 +50,15 @@ public class ItemController : Controller
             query = query.Where(i => i.IsActive == isActive.Value);
         }
 
-        query = query.OrderBy(i => i.Name).ThenBy(i => i.Id);
+        query = sortOrder switch
+        {
+            "name_desc" => query.OrderByDescending(i => i.Name).ThenBy(i => i.Id),
+            "ItemCode" => query.OrderBy(i => i.ItemCode).ThenBy(i => i.Id),
+            "item_desc" => query.OrderByDescending(i => i.ItemCode).ThenBy(i => i.Id),
+            "StandardCost" => query.OrderBy(i => i.StandardCost).ThenBy(i => i.Id),
+            "cost_desc" => query.OrderByDescending(i => i.StandardCost).ThenBy(i => i.Id),
+            _ => query.OrderBy(i => i.Name).ThenBy(i => i.Id)
+        };
 
         var pagedItems = await PaginatedList<Item>.CreateAsync(
             query,

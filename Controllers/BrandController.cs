@@ -26,12 +26,9 @@ namespace Strata.Controllers
         {
             int pageSize = 25;
             
-            // Added Sort Order
-            // Need to think if we implement it or not
-            
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSort"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["CreatedSort"] = sortOrder == "created_asc" ? "created_desc" : "created_asc";
+            ViewData["CreatedSort"] = sortOrder == "CreatedAt" ? "created_desc" : "CreatedAt";
 
             var query = _context.Brands.AsNoTracking().AsQueryable();
 
@@ -43,7 +40,7 @@ namespace Strata.Controllers
             query = sortOrder switch
             {
                 "name_desc" => query.OrderByDescending(c => c.Name).ThenBy(c => c.Id),
-                "created_asc" => query.OrderBy(c => c.CreatedAt).ThenBy(c => c.Id),
+                "CreatedAt" => query.OrderBy(c => c.CreatedAt).ThenBy(c => c.Id),
                 "created_desc" => query.OrderByDescending(c => c.CreatedAt).ThenBy(c => c.Id),
                 _ => query.OrderBy(c => c.Name).ThenBy(c => c.Id)
             };

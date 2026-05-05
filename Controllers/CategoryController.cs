@@ -21,10 +21,15 @@ namespace Strata.Controllers
 
         public async Task<IActionResult> Index(
             string searchString,
+            string sortOrder,
             int pageNumber = 1
         )
         {
             int pageSize = 25;
+            
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSort"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CreatedSort"] = sortOrder == "CreatedAt" ? "created_desc" : "CreatedAt";
 
             var query = _context.Categories.AsNoTracking().AsQueryable();
 
@@ -33,7 +38,13 @@ namespace Strata.Controllers
                 query = query.Where(c => c.Name.Contains(searchString));
             }
 
-            query = query.OrderBy(c => c.Name).ThenBy(c => c.Id);
+            query = sortOrder switch
+            {
+                "name_desc" => query.OrderByDescending(c => c.Name).ThenBy(c => c.Id),
+                "CreatedAt" => query.OrderBy(c => c.CreatedAt).ThenBy(c => c.Id),
+                "created_desc" => query.OrderByDescending(c => c.CreatedAt).ThenBy(c => c.Id),
+                _ => query.OrderBy(c => c.Name).ThenBy(c => c.Id)
+            };
 
             var pagedCategory = await PaginatedList<Category>.CreateAsync(
                 query,
