@@ -1,0 +1,115 @@
+﻿@model Strata.ViewModel.Catalog.Item.ItemDetailsViewModel
+
+@{
+    string BoolBadge(bool value) => value ? "bg-success-subtle text-success" : "bg-secondary-subtle text-secondary";
+    string BoolText(bool value) => value ? "Yes" : "No";
+
+    var createdAtText = Model.CreatedAt.ToString("MMM dd, yyyy hh:mm tt");
+    var updatedAtText = Model.UpdatedAt.ToString("MMM dd, yyyy hh:mm tt");
+}
+
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow">
+            
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body pt-0">
+                <input type="hidden" asp-for="Id" />
+                
+                <div>
+                    <div class="text-muted small">Item Details</div>
+                    <h5 class="modal-title fw-semibold" id="detailsModalLabel">@Model.Name</h5>
+                    <div class="text-muted small">@Model.ItemCode</div>
+                </div>
+
+                <div class="card border-0 bg-light mt-3 mb-3">
+                    <div class="card-body">
+                        <h6 class="fw-semibold mb-3">General Information</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Description</small>
+                                <div class="fw-medium">@(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Brand</small>
+                                <div class="fw-medium">@(string.IsNullOrWhiteSpace(Model.Brand) ? "-" : Model.Brand)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Category</small>
+                                <div class="fw-medium">@(string.IsNullOrWhiteSpace(Model.Category) ? "-" : Model.Category)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Unit of Measure</small>
+                                <div class="fw-medium">@(string.IsNullOrWhiteSpace(Model.UnitOfMeasure) ? "-" : Model.UnitOfMeasure)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <h6 class="fw-semibold mb-3">Item Attributes</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge rounded-pill @BoolBadge(Model.IsSerialized)">Serialized: @BoolText(Model.IsSerialized)</span>
+                            <span class="badge rounded-pill @BoolBadge(Model.IsConsumable)">Consumable: @BoolText(Model.IsConsumable)</span>
+                            <span class="badge rounded-pill @BoolBadge(Model.IsSparePart)">Spare Part: @BoolText(Model.IsSparePart)</span>
+                            <span class="badge rounded-pill @BoolBadge(Model.RequiresMaintenance)">Maintenance: @BoolText(Model.RequiresMaintenance)</span>
+                            <span class="badge rounded-pill @(Model.IsActive ? "bg-success" : "bg-danger")">
+                                @(Model.IsActive ? "Active" : "Inactive")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 bg-light mb-3">
+                    <div class="card-body">
+                        <h6 class="fw-semibold mb-3">Stock & Cost</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <small class="text-muted d-block">Min. Stock Level</small>
+                                <div class="fw-medium">@Model.MinimumStockLevel</div>
+                            </div>
+                            <div class="col-md-4">
+                                <small class="text-muted d-block">Reorder Level</small>
+                                <div class="fw-medium">@Model.ReorderLevel</div>
+                            </div>
+                            <div class="col-md-4">
+                                <small class="text-muted d-block">Standard Cost</small>
+                                <div class="fw-semibold text-primary">@($"{Model.StandardCost:C}")</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="fw-semibold mb-3">Audit Trail</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Created At</small>
+                                <div class="fw-medium">@createdAtText</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Created By</small>
+                                <div class="fw-medium">@(string.IsNullOrWhiteSpace(Model.CreatedBy) ? "-" : Model.CreatedBy)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Updated At</small>
+                                <div class="fw-medium">
+                                    @updatedAtText
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted d-block">Updated By</small>
+                                <div class="fw-medium">@(string.IsNullOrWhiteSpace(Model.UpdatedBy) ? "-" : Model.UpdatedBy)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

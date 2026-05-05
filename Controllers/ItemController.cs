@@ -221,4 +221,45 @@ public class ItemController : Controller
         
         return Json(new { success = true });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var item = await _context.Items.Include(i => i.Brand).Include(i => i.Category).Include(i => i.Category).Include(i => i.UnitOfMeasure).FirstOrDefaultAsync(i => i.Id == id);
+
+        if (item == null)
+        {
+            return NotFound();
+        }
+
+        var model = new ItemDetailsViewModel
+        {
+            Id = item.Id,
+            ItemCode =  item.ItemCode,
+            Name = item.Name,
+            Description =  item.Description,
+            Brand =  item.Brand?.Name,
+            Category = item.Category?.Name,
+            UnitOfMeasure = item.UnitOfMeasure?.Name,
+            IsSerialized = item.IsSerialized,
+            IsConsumable = item.IsConsumable,
+            IsSparePart =  item.IsSparePart,
+            RequiresMaintenance = item.RequiresMaintenance,
+            MinimumStockLevel = item.MinimumStockLevel,
+            ReorderLevel = item.ReorderLevel,
+            StandardCost = item.StandardCost,
+            IsActive = item.IsActive,
+            CreatedAt = item.CreatedAt.ToOffset(TimeSpan.FromHours(8)),
+            CreatedBy = item.CreatedBy,
+            UpdatedAt = item.UpdatedAt.ToOffset(TimeSpan.FromHours(8)),
+            UpdatedBy = item.UpdatedBy,
+        };
+        
+        return PartialView("~/Views/Catalog/Item/_DetailsPartial.cshtml", model);
+    }
 }

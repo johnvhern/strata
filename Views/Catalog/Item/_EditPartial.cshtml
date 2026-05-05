@@ -1,113 +1,184 @@
 ﻿@model Strata.ViewModel.Catalog.Item.ItemEditViewModel
 
-<!-- Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Item</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow edit-item-modal">
+            
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="text-muted small text-uppercase fw-semibold">Catalog</div>
+                    <h1 class="modal-title fs-4 fw-bold mb-1" id="editModalLabel">Edit Item</h1>
+                    <p class="text-muted small mb-0">Update item classification, stock rules, and cost details.</p>
+                </div>
+                <button type="button" class="btn-close align-self-baseline" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+
+            <div class="modal-body pt-3">
                 <form asp-controller="Item" asp-action="Edit" method="post" id="itemEditForm" class="js-item-flags-form">
-                    <input type="hidden" asp-for="Id"/>
-                    <div class="mb-3">
-                        <label asp-for="ItemCode" class="form-label">Item Code</label>
-                        <input asp-for="ItemCode" class="form-control" placeholder="LT001"/>
-                        <span asp-validation-for="ItemCode" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Lenovo Legion"/>
-                        <span asp-validation-for="Name" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="Description" class="form-label">Description</label>
-                        <textarea asp-for="Description" class="form-control" placeholder="Printers" rows="3"></textarea>
-                        <span asp-validation-for="Description" class="text-danger small"></span>
-                    </div>
-                    <div class="d-block d-lg-flex gap-lg-2">
-                        <div class="mb-3 flex-fill">
-                            <label asp-for="BrandId" class="form-label">Brand</label>
-                            <select asp-for="BrandId" class="form-select" asp-items="Model.BrandsOptions">
-                                <option value="">Select a brand</option>
-                            </select>
-                            <span asp-validation-for="BrandId" class="text-danger small"></span>
-                        </div>
-                        <div class="mb-3 flex-fill">
-                            <label asp-for="CategoryId" class="form-label">Category</label>
-                            <select asp-for="CategoryId" class="form-select" asp-items="Model.CategoryOptions">
-                                <option value="">Select a category</option>
-                            </select>
-                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="UnitOfMeasureId" class="form-label">UOM</label>
-                        <select asp-for="UnitOfMeasureId" class="form-select" asp-items="Model.UnitOptions">
-                            <option value="">Select a unit</option>
-                        </select>
-                        <span asp-validation-for="UnitOfMeasureId" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <div>
-                                <input asp-for="IsSerialized" class="form-check-input" type="checkbox" role="switch">
-                                <label asp-for="IsSerialized" class="form-check-label">Serialized</label>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="card border-0 bg-light-subtle mb-3">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Basic Information</h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label asp-for="ItemCode" class="form-label">Item Code</label>
+                                    <input asp-for="ItemCode" class="form-control" placeholder="LT001" />
+                                    <span asp-validation-for="ItemCode" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label asp-for="Name" class="form-label">Name</label>
+                                    <input asp-for="Name" class="form-control" placeholder="Lenovo Legion" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="Description" class="form-label">Description</label>
+                                    <textarea asp-for="Description" class="form-control" placeholder="Short item description" rows="3"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <span asp-validation-for="IsSerialized" class="text-danger small"></span>
                         </div>
-                        <div class="form-check form-switch">
-                            <div>
-                                <input asp-for="IsConsumable" class="form-check-input" type="checkbox" role="switch">
-                                <label asp-for="IsConsumable" class="form-check-label">Consumable</label>
+                    </div>
+
+                    <div class="card border-0 bg-light-subtle mb-3">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Classification</h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label asp-for="BrandId" class="form-label">Brand</label>
+                                    <select asp-for="BrandId" class="form-select" asp-items="Model.BrandsOptions">
+                                        <option value="">Select a brand</option>
+                                    </select>
+                                    <span asp-validation-for="BrandId" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label asp-for="CategoryId" class="form-label">Category</label>
+                                    <select asp-for="CategoryId" class="form-select" asp-items="Model.CategoryOptions">
+                                        <option value="">Select a category</option>
+                                    </select>
+                                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label asp-for="UnitOfMeasureId" class="form-label">UOM</label>
+                                    <select asp-for="UnitOfMeasureId" class="form-select" asp-items="Model.UnitOptions">
+                                        <option value="">Select a unit</option>
+                                    </select>
+                                    <span asp-validation-for="UnitOfMeasureId" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <span asp-validation-for="IsConsumable" class="text-danger small"></span>
                         </div>
-                        <div class="form-check form-switch">
-                            <div>
-                                <input asp-for="IsSparePart" class="form-check-input" type="checkbox" role="switch">
-                                <label asp-for="IsSparePart" class="form-check-label">Spare Part</label>
+                    </div>
+
+                    <div class="card border-0 bg-light-subtle mb-3">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Item Attributes</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="attribute-switch">
+                                        <div>
+                                            <label asp-for="IsSerialized" class="form-label mb-1">Serialized</label>
+                                            <div class="text-muted small">Track each item by unique serial number.</div>
+                                        </div>
+                                        <div class="form-check form-switch m-0">
+                                            <input asp-for="IsSerialized" class="form-check-input" type="checkbox" role="switch">
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="IsSerialized" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="attribute-switch">
+                                        <div>
+                                            <label asp-for="IsConsumable" class="form-label mb-1">Consumable</label>
+                                            <div class="text-muted small">Used up over time and replenished regularly.</div>
+                                        </div>
+                                        <div class="form-check form-switch m-0">
+                                            <input asp-for="IsConsumable" class="form-check-input" type="checkbox" role="switch">
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="IsConsumable" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="attribute-switch">
+                                        <div>
+                                            <label asp-for="IsSparePart" class="form-label mb-1">Spare Part</label>
+                                            <div class="text-muted small">Used as replacement part for equipment or assets.</div>
+                                        </div>
+                                        <div class="form-check form-switch m-0">
+                                            <input asp-for="IsSparePart" class="form-check-input" type="checkbox" role="switch">
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="IsSparePart" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="attribute-switch">
+                                        <div>
+                                            <label asp-for="RequiresMaintenance" class="form-label mb-1">Requires Maintenance</label>
+                                            <div class="text-muted small">Needs periodic servicing, inspection, or upkeep.</div>
+                                        </div>
+                                        <div class="form-check form-switch m-0">
+                                            <input asp-for="RequiresMaintenance" class="form-check-input" type="checkbox" role="switch">
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="RequiresMaintenance" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <span asp-validation-for="IsSparePart" class="text-danger small"></span>
                         </div>
-                        <div class="form-check form-switch">
-                            <div>
-                                <input asp-for="RequiresMaintenance" class="form-check-input" type="checkbox" role="switch">
-                                <label asp-for="RequiresMaintenance" class="form-check-label">Requires Maintenance</label>
+                    </div>
+
+                    <div class="card border-0 bg-light-subtle mb-3">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Inventory Rules</h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label asp-for="MinimumStockLevel" class="form-label">Min. Stock Level</label>
+                                    <input type="number" asp-for="MinimumStockLevel" class="form-control" placeholder="0" />
+                                    <span asp-validation-for="MinimumStockLevel" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label asp-for="ReorderLevel" class="form-label">Reorder Level</label>
+                                    <input type="number" asp-for="ReorderLevel" class="form-control" placeholder="0" />
+                                    <span asp-validation-for="ReorderLevel" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label asp-for="StandardCost" class="form-label">Standard Cost</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input asp-for="StandardCost" class="form-control" placeholder="0.00" />
+                                    </div>
+                                    <span asp-validation-for="StandardCost" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <span asp-validation-for="RequiresMaintenance" class="text-danger small"></span>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="MinimumStockLevel" class="form-label">Min. Stock Level</label>
-                        <input type="number" asp-for="MinimumStockLevel" class="form-control"/>
-                        <span asp-validation-for="MinimumStockLevel" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="ReorderLevel" class="form-label">Reorder Level</label>
-                        <input type="number" asp-for="ReorderLevel" class="form-control"/>
-                        <span asp-validation-for="ReorderLevel" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="StandardCost" class="form-label">Standard Cost</label>
-                        <div class="input-group">
-                            <span class="input-group-text">₱</span>
-                            <input asp-for="StandardCost" class="form-control"/>
-                        </div>
-                        <span asp-validation-for="StandardCost" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch" checked>
-                            <label asp-for="IsActive" class="form-check-label">Is Active</label>
+
+                    <div class="card border-0 bg-light-subtle">
+                        <div class="card-body">
+                            <div class="attribute-switch">
+                                <div>
+                                    <label asp-for="IsActive" class="form-label mb-1">Active Status</label>
+                                    <div class="text-muted small">Enable this item immediately after creation.</div>
+                                </div>
+                                <div class="form-check form-switch m-0">
+                                    <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch" checked>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()"/>
+
+                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()" />
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary js-save-edit-item">Save</button>
+
+            <div class="modal-footer border-0 pt-0 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary px-4 js-save-edit-item">Save Item</button>
             </div>
         </div>
     </div>

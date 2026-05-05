@@ -29,7 +29,11 @@
     }
 
     function parseDynamicForm(formSelector) {
+        if (!formSelector) return;
+
         const form = $(formSelector);
+        if (!form.length) return;
+
         form.removeData('validator');
         form.removeData('unobtrusiveValidation');
         $.validator.unobtrusive.parse(form);
@@ -76,7 +80,10 @@
 
         const placeholder = $(placeholderSelector);
 
-        $('body').on('click', triggerSelector, function () {
+        $('body').on('click', triggerSelector, function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const url = $(this).data('url');
 
             $.get(url).done(function (html) {
@@ -84,34 +91,37 @@
             });
         });
 
-        placeholder.on('click', saveButtonSelector, function (e) {
-            e.preventDefault();
+        if (saveButtonSelector && formSelector) {
+            placeholder.on('click', saveButtonSelector, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
 
-            const form = $(formSelector);
+                const form = $(formSelector);
+                if (!form.length) return;
 
-            $.ajax({
-                type: 'POST',
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function (response) {
-                    if (typeof response === 'string') {
-                        showModal(response, modalSelector, formSelector, placeholderSelector);
-                        
-                    } else if (response.success) {
-                        const modalEl = document.querySelector(modalSelector);
-                        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-                        modal.hide();
+                $.ajax({
+                    type: 'POST',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (typeof response === 'string') {
+                            showModal(response, modalSelector, formSelector, placeholderSelector);
+                        } else if (response.success) {
+                            const modalEl = document.querySelector(modalSelector);
+                            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                            modal.hide();
 
-                        if (successRedirectUrl && successQueryKey) {
-                            window.location.href = successRedirectUrl + '?' + successQueryKey + '=1';
+                            if (successRedirectUrl && successQueryKey) {
+                                window.location.href = successRedirectUrl + '?' + successQueryKey + '=1';
+                            }
                         }
+                    },
+                    error: function () {
+                        showToast(errorMessage || "Something went wrong.", "error");
                     }
-                },
-                error: function () {
-                    showToast(errorMessage || "Something went wrong.", "error");
-                }
+                });
             });
-        });
+        }
     }
 
     function showToastFromQuery(paramName, message, type = "success") {
