@@ -3,28 +3,36 @@
 <!-- Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Unit</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="text-muted small text-uppercase fw-semibold">Catalog</div>
+                    <h1 class="modal-title fs-4 fw-bold mb-1" id="createModalLabel">Create Unit</h1>
+                    <p class="text-muted small mb-0">Add a new catalog unit with its details.</p>
+                </div>
+                <button type="button" class="btn-close align-self-baseline" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form asp-controller="Unit" asp-action="Create" method="post" id="unitCreateForm">
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Pieces" />
-                        <span asp-validation-for="Name" class="text-danger small"></span>
+            <div class="modal-body pt-3">
+                <div class="card border-0 bg-light-subtle">
+                    <div class="card-body">
+                        <form asp-controller="Unit" asp-action="Create" method="post" id="unitCreateForm">
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Pieces"/>
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Abbreviation" class="form-label">Abbreviation</label>
+                                <input asp-for="Abbreviation" class="form-control" placeholder="pcs"/>
+                                <span asp-validation-for="Abbreviation" class="text-danger small"></span>
+                            </div>
+                            <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()"/>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Abbreviation" class="form-label">Abbreviation</label>
-                        <input asp-for="Abbreviation" class="form-control" placeholder="pcs" />
-                        <span asp-validation-for="Abbreviation" class="text-danger small"></span>
-                    </div>
-                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()"/>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-primary js-save-create-unit">Save</button>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-primary js-save-create-unit">Save Unit</button>
             </div>
         </div>
     </div>

@@ -3,29 +3,37 @@
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Category</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="text-muted small text-uppercase fw-semibold">Catalog</div>
+                    <h1 class="modal-title fs-4 fw-bold mb-1" id="createModalLabel">Edit Category</h1>
+                    <p class="text-muted small mb-0">Update a catalog category with its details.</p>
+                </div>
+                <button type="button" class="btn-close align-self-baseline" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form asp-controller="Category" asp-action="Edit" method="post" id="categoryEditForm">
-                    <input type="hidden" asp-for="Id"/>
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">Name</label>
-                        <input asp-for="Name" class="form-control" placeholder="Epson"/>
-                        <span asp-validation-for="Name" class="text-danger small"></span>
+            <div class="modal-body pt-3">
+                <div class="card border-0 bg-light-subtle">
+                    <div class="card-body">
+                        <form asp-controller="Category" asp-action="Edit" method="post" id="categoryEditForm">
+                            <input type="hidden" asp-for="Id"/>
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Epson"/>
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Description" class="form-label">Description</label>
+                                <textarea asp-for="Description" class="form-control" placeholder="Epson" rows="3"></textarea>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
+                            </div>
+                            <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()"/>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Description" class="form-label">Description</label>
-                        <textarea asp-for="Description" class="form-control" placeholder="Epson" rows="3"></textarea>
-                        <span asp-validation-for="Description" class="text-danger small"></span>
-                    </div>
-                    <input type="hidden" name="IsValid" value="@ViewData.ModelState.IsValid.ToString()"/>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-primary js-save-edit-category">Save</button>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-primary js-save-edit-category">Save Category</button>
             </div>
         </div>
     </div>
